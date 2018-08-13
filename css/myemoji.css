@@ -1,0 +1,31 @@
+.moneybag::before {
+    content: "\01F4B0";
+}
+
+.unicorn-face::before {
+    content: "\01F984";
+}
+
+.thinking-face::before {
+    content: "\01F914";
+}
+
+.grinning-cat-face::before {
+    content: "\01F63A";
+}
+
+.man-tipping-hand::before {
+    content: "\01F481 \01F3FD \0200D \02642 \0FE0F";
+}
+
+.no-entry-sign::before {
+    content: "\01F6AB";
+}
+
+.house-with-garden::before {
+    content: "\01F3E1";
+}
+
+.wink::before {
+    content: "\01F609";
+}

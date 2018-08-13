@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Los axiomas de Kolmogorov" />
+
+
+<title>¿Qué &amp;@$/(!# es la probabilidad?</title>
+
+<script src="Intro_proba_v3_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Intro_proba_v3_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="Intro_proba_v3_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Intro_proba_v3_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Intro_proba_v3_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="Intro_proba_v3_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="Intro_proba_v3_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="Intro_proba_v3_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="Intro_proba_v3_files/navigation-1.1/tabsets.js"></script>
+<link href="Intro_proba_v3_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="Intro_proba_v3_files/highlightjs-9.12.0/highlight.js"></script>
+<!-- Meta characteristics -->
+<meta name="description" content="Notas a Cálculo de Probabilidades">
+<meta name="keywords" content="Probabilidad, ITAM, clase, notas, probabilidad 1, cálculo de probabilidades">
+<meta name="author" content="Rodrigo Zepeda Tello">
+
+<!-- Favicons -->
+<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+<link rel="manifest" href="favicons/site.webmanifest">
+<link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#00aba9">
+<meta name="theme-color" content="#ffffff">
+
+<!-- Add d3js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- Nice mathjax format -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true, }, TeX: { equationNumbers: { autoNumber: "AMS" } } });
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4,h5",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<!--Navigation menu-->
+<link href="css/custom.css" type="text/css" rel="stylesheet">
+<link href="css/myemoji.css" type="text/css" rel="stylesheet">
+<!--<link href="https://afeld.github.io/emoji-css/emoji.css" type="text/css" rel="stylesheet">-->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Calculo3">Notas de Cálculo de Probabilidades I</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-main">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="https://github.com/RodrigoZepeda/Calculo3"><img src="logos/GitHub-Mark-Light-32px.png"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">¿Qué &amp;@$/(!# es la probabilidad?</h1>
+<h4 class="author"><em>Los axiomas de Kolmogorov</em></h4>
+
+</div>
+
+
+<div class="abstract">
+<blockquote>
+<p>¿Alguna vez has visto una de esas películas de James Bond que inician con una escena de acción donde hay muchos golpes y explosiones y no es sino hasta que la escena termina (5 minutos después) cuando aparecen en pantalla los créditos y el nombre de la obra? Esta sección es similar: en ella recorreremos vagamente el concepto de <em>plausibilidad</em> e intentaremos modelarlo usando todo nuestro conocimiento de álgebra para, en la parte final, correr los créditos y decir: “ahora que ya viste toda la acción, es momento de darte la bienvenida a tu curso de probabilidad.” Pero no nos adelantemos; esta historia comienza con un robo…</p>
+</blockquote>
+</div>
+<div id="una-plausible-introduccion-a-la-probabilidad-donde-se-habla-de-un-robo" class="section level1">
+<h1><span class="header-section-number">1</span> Una plausible introducción a la probabilidad donde se habla de un robo</h1>
+<div id="la-noche-del-robo-ta-taaan" class="section level2">
+<h2><span class="header-section-number">1.1</span> La noche del robo ¡ta taaan!</h2>
+<p>Es una noche oscura y caminas por un callejón junto a un banco. De pronto ¡zaz!, escuchas cristales romperse y comienza a sonar la alarma. <em>“¡Alerta de robo!, ¡alerta!”</em> Giras tu cabeza hacia el banco, (sabes que la curiosidad mató al gato pero ya ves cómo eres) y observas una figura enmascarada con un saco de billetes <span class="moneybag"></span> (sabes que es de billetes porque algunos sobresalen de él; es más, hasta tus pies vuela una sorjuanita). La figura coloca su dedo sobre la protuberancia donde se encuentra la boca y te pide silencio. Te limitas a asentir con la cabeza. Comienzan a escucharse sirenas (posiblemente de la policía) y la figura echa a correr en sentido contrario. Cuando llega la policía (resulta que las sirenas sí eran de la policía) y te pregunta qué ha ocurrido respondes <em>“Alguien robó el banco.”</em> (¿o qué responderías? <span class="thinking-face"></span> no sé tú, pero yo sí creo que alguien robó el banco). Suena <em>lógico</em> decir que robaron el banco ¿cierto? (no es pregunta capciosa). La pregunta es ¿cómo rayos llegaste (o yo llegúe) a esta conclusión? ¿cómo es dicho razonamiento?</p>
+<p>La forma en la que razonas esto <strong>NO</strong> es con lógica clásica aristotélica de <code>Ideas 1</code>. La lógica clásica se basa en proposiciones que tienen dos opciones: ser <code>Verdaderas</code> o <code>Falsas</code>. Funciona, como ya sabes, al unir dos proposiciones (por poner un número) y analizar si una conclusión se sigue de ellas:</p>
+<span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+ &amp; \textrm{ Todos los ponys son caballos,} \\
+\&amp; &amp; \textrm{ Todos los caballos son cuadrúpedos.} \\
+\hline 
+\therefore &amp; \textrm{ Todos los ponys son cuadrúpedos.}
+\end{aligned}
+\end{equation}\]</span>
+<p>Al tratar de explicar tu razonamiento para concluir que robaron el banco no puedes usar este modelo lógico. No sabes si el sonido de la ventana rompiéndose <em>vino del banco</em>. No sabes si la alarma se disparó porque vio un gato pasar. No sabes si la persona enmascarada cargando un saco de billetes era ladrona o tan sólo estaba de camino a una fiesta de Halloween muuuuy adelantada (es agosto) o quizá era la banquera que olvidó las llaves y necesitaba sacar <em>su</em> dinero por tanto tuvo que romper la ventana. Quizá todo era parte de la grabación de la nueva película de James Bond.</p>
+En cualquier caso, me gustaría poder sistematizar la forma de los razonamientos similares al siguiente:
+<span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+&amp; \textrm{ Una persona enmascarada salió del banco cargando billetes.} \\
+\&amp; &amp; \textrm{ La alarma del bancó sonó. }\\
+\&amp; &amp; \textrm{ Se escuchó un cristal romperse. } \\
+\&amp; &amp; \textrm{ Llegó la policía. } \\
+\hline 
+\therefore &amp; \textrm{ Robaron el banco.}
+\end{aligned}
+\end{equation}\]</span>
+<p>Aunque nos (o al menos me) encantaría concluir que <em>Robaron el banco</em> a partir de las proposiciones, esto no se sigue (al menos no lógicamente). Empero, ésta es la forma de razonamiento que más usamos día con día. Tú lo usas, por ejemplo, cuando te preguntas por qué van <span class="math inline">\(5\)</span> días desde que <em>esa persona</em> no ha respondido tus mensajes dejándote en en visto (tus “premisas”) y concluyes que seguro, seguro es porque está estudiando probabilidad ¿qué más podría ser? (tus “conclusiones”).</p>
+<p>El razonamiento anterior (el del banco) invita a hablar de <strong>plausibilidad</strong>. Es decir, dadas las proposiciones verdaderas: <em>Una persona enmascarada salió del banco cargando billetes</em> y <em>La alarma del bancó sonó, se escuchó un cristal romperse y llegó la policía</em> hay cierto grado de <strong>plausibilidad</strong> de que <em>Robaron el banco</em>. Quizá no es cierto (ya vimos que hay otras explicaciones posibles); sin embargo, es <strong>plausible</strong>. Esa es también la lógica cuando analizas por qué no contesta tus mensajes: es <strong>plausible</strong> que esté estudiando probabilidad (también es <strong>plausible</strong> que haya <em>alguien más</em> pero no te quiero deprimir). Pensando en esta cosa de <strong>plausibilidad</strong> ¿cuáles serían las reglas? ¿cómo podemos modelar matemáticamente esta forma de razonamiento?<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> En la siguiente sección te contaré el enfoque que a mí me gusta para modelar la <strong>plausibilidad</strong>; estableceré reglas de <em>cómo debería ser</em>. Lo que me interesa es modelar el <em>cómo debería ser</em> dicho razonamiento (lo mismo que sabemos <em>cómo debería ser</em> el razonamiento lógico) aunque como seres humanos quizá no razonemos así. Es como establecer las reglas de ortografía: son una guía del <em>deber ser</em> aunque no necesariamente reflejen la realidad. Tú puedes desarrollar tus propias reglas ¡experimenta con ello antes de ver cómo le hice yo!<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<div class="figure" style="text-align: center">
+<img src="imagenes/me_quiere_no_me_quiere.jpg" alt="Estudiante del semestre pasado realizando un análisis de plausibilidad." width="250px" />
+<p class="caption">
+Estudiante del semestre pasado realizando un análisis de plausibilidad.
+</p>
+</div>
+</div>
+<div id="las-reglas-de-rod-sobre-la-plausibilidad" class="section level2">
+<h2><span class="header-section-number">1.2</span> Las reglas de Rod sobre la plausibilidad</h2>
+<div id="calcprop" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Una probadita de cálculo proposicional</h3>
+<p>Como esta cosa de <em>plausibilidad</em> parece cercana a la lógica clásica (hay proposiciones que combinamos para concluir cosas) podemos analizar cómo funciona la lógica proposicional y después transformarla a nuestro favor para hablar de plausibilidad. Un acercamiento informal a la lógica (como éste) comenzaría habándote de <strong>proposiciones</strong> como enunciados declarativos de los cuales puede decidirse su verdad o falsedad. Por ejemplo: “El autor de este texto es genial” o “El pomeranio es un tipo de perro” (ambas verdades universales, por cierto). Cosas que no son proposiciones son: preguntas “¿qué hacemos aquí sobre la tierra?”, exclamaciones “¡recórcholis!” o las cosas que tu gato escribe al subirse al teclado “ysf7437sbds”. Esta definición de <strong>proposición</strong> tiene muchos peros: hay muchos enunciados declarativos que quién sabe si son ciertos ya sea porque no se pueden decidir ahora, porque nadie sabe si son ciertas o porque son juicios de valor: “La hipótesis de Riemann es cierta”, “En el <span class="math inline">\(2079\)</span> aparecerá una nueva especie de atún”, “Vivir es increíble” ó “<span class="math inline">\(x + 6 = 7\)</span>”. Para el propósito de este texto, las proposiciones que usaré (y usarás) son completamente determinables como <strong>verdaderas</strong> o <strong>falsas</strong> y para todos es obvio cuál es cuál (si quieres hablar de lógica como los profesionales puedes empezar con <a href="https://en.wikipedia.org/wiki/First-order_logic">lógica de primer orden</a>).</p>
+<!--Para hablar de la verdad o falsedad de ciertas proposiciones es necesario un _contexto_. Por ejemplo, $x + 6 = 7$ es verdadero si $x = 1$ y falso si $x = 7$ ó $x = \textrm{Pato}$. El _contexto_ en este caso sería el valor de $x$, el cual te permite decidir si el enunciado es verdadero o falso. No me meteré más en la idea de _contexto_ por ahora y asumiré que todas las proposiciones que usemos en adelante están en el mismo contexto y son decidibles en él. -->
+<p>Sean <span class="math inline">\(A,B\)</span> proposiciones. En el ejemplo de los caballos <span class="math inline">\(A \equiv\)</span> <em>Todos los ponys son caballos</em> y <span class="math inline">\(B \equiv\)</span> <em>Todos los caballos son cuadrúpedos</em>. Lo mágico fue conectarlos para concluir nuevas verdades ( <em>Todos los ponys son cuadrúpedos.</em> ). Para ello, podemos usar <strong>conectores</strong> que operan sobre las premisas. Algunos de los famosos son: <strong>conjunción</strong>: <span class="math inline">\(\land\)</span> (se lee como “y”), <strong>disjunción</strong> <span class="math inline">\(\lor\)</span> (léase “ó”) así como <strong>negación</strong> <span class="math inline">\(\lnot\)</span> (léase “no”). Otros que conoces son el <strong>implica</strong>: <span class="math inline">\(\Rightarrow\)</span> así como el <strong>si y solo si</strong> también conocido como <strong>ssi:</strong> <span class="math inline">\(\Leftrightarrow\)</span>. Propiamente hablando, los <strong>conectores</strong> son funciones cuyo dominio son las premisas y cuyo <em>output</em> es uno de los dos valores: verdadero (<span class="math inline">\(\mathbb{V}\)</span>) o falso (<span class="math inline">\(\mathbb{F}\)</span>). Por cierto, a partir de ahora si una proposición <span class="math inline">\(A\)</span> es verdadera (<span class="math inline">\(\mathbb{V}\)</span>) denotaré esta relación como <span class="math inline">\(A \equiv \mathbb{V}\)</span> (no es un <span class="math inline">\(=\)</span> ¿por qué?); si la proposición es falsa (<span class="math inline">\(\mathbb{F}\)</span>) denotaré esto como <span class="math inline">\(A \equiv \mathbb{F}\)</span>.</p>
+La <strong>negación</strong>, <span class="math inline">\(\lnot\)</span>, es una función que opera sobre una premisa <span class="math inline">\(A\)</span> (de hecho es la única que opera sobre sólo una premisa) de la siguiente forma:
+<span class="math display">\[\begin{equation}\nonumber
+\lnot(A) \equiv \begin{cases}
+\mathbb{F} &amp; \text{ si } A \equiv \mathbb{V}, \\
+\mathbb{V} &amp; \text{ si } A \equiv \mathbb{F}.
+\end{cases}
+\end{equation}\]</span>
+<p>Como ejemplo, la afirmación “No hay alguien más” puede verse como <span class="math inline">\(\lnot(\text{&quot;Hay alguien más&quot;})\)</span>.</p>
+La <strong>conjunción</strong> <span class="math inline">\(\land\)</span> opera sobre dos premisas, <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> así:
+<span class="math display">\[\begin{equation}\nonumber
+\land(A,B) \equiv \begin{cases}
+\mathbb{V} &amp; \text{ si } A \equiv \mathbb{V} \text{ y } B \equiv \mathbb{V}, \\
+\mathbb{F} &amp; \text{ los demás casos}.
+\end{cases}
+\end{equation}\]</span>
+Generalmente la gente escribe la conjunción <span class="math inline">\(\land\)</span> de dos premisas como <span class="math inline">\(A\land B\)</span> (en lugar de <span class="math inline">\(\land(A,B)\)</span>) y como no me gusta sentirme diferente entonces imitaré al resto de las personas a partir de ahora y escribiré <span class="math inline">\(A\land B\)</span>. Un ejemplo de conjunción es la combinación de las afirmaciones para formar <em>“Pedro y Ana son unos alienígenas que buscan dominar al mundo”</em>. En la notación lógica podemos escribir:
+<span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+&amp; \text{&quot;Pedro es un alienígena que busca dominar al mundo&#39;&#39;}  \\ \land &amp; \text{&quot;Ana es una alienígena que busca dominar al mundo&#39;&#39;}
+\end{aligned}
+\end{equation}\]</span>
+La <strong>disjunción</strong> <span class="math inline">\(\lor\)</span> de dos premisas <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> funciona casi al contrario de la conjunción; aquí basta con que una de las dos sea verdadera para que su disjunción lo sea:
+<span class="math display">\[\begin{equation}\nonumber
+\lor(A,B) \equiv \begin{cases}
+\mathbb{F} &amp; \text{ si } A \equiv \mathbb{F} \text{ y } B \equiv \mathbb{F}, \\
+\mathbb{V} &amp; \text{ los demás casos}.
+\end{cases}
+\end{equation}\]</span>
+De la misma manera en que la conjunción se escribía como una operación entre premisas la disjunción generalmente se escribe <span class="math inline">\(A \lor B\)</span> en lugar del bonito <span class="math inline">\(\lor(A,B)\)</span>. El <span class="math inline">\(\lor\)</span> es genial para crear <strong>tautologías</strong> (combinaciones proposicionales que siempre son verdaderas):
+<span class="math display">\[\begin{equation}\nonumber
+\text{&quot;Hace calor&#39;&#39;} \lor \text{&quot;No hace calor&#39;&#39;}
+\end{equation}\]</span>
+La implicación <span class="math inline">\(\Rightarrow\)</span> también es una función. Ésta es la primera función a la que nos enfrentamos que opera sobre dos premisas <span class="math inline">\(A,B\)</span> sin ser conmutativa:
+<span class="math display">\[\begin{equation}\nonumber
+\Rightarrow(A,B) \equiv \begin{cases}
+\mathbb{V} &amp; \text{ si } B \equiv \mathbb{T}, \\
+\mathbb{V} &amp; \text{ si } A \equiv \mathbb{F} \text{ y } B \equiv \mathbb{F}, \\
+\mathbb{F} &amp; \text{ si } A \equiv \mathbb{V} \text{ y } B \equiv \mathbb{F}.
+\end{cases}
+\end{equation}\]</span>
+<p>De manera informal podemos pensar la implicación <span class="math inline">\(\Rightarrow\)</span> como “<span class="math inline">\(B\)</span> se sigue de <span class="math inline">\(A\)</span>”. De esta manera, algo verdadero <span class="math inline">\(B\)</span> siempre va a ser verdadero, sin importar cuál sea mi proposición <span class="math inline">\(A\)</span> (de ahí el primer caso); el último caso es también intuitivo: algo verdadero no puede llegar a una conclusión falsa (por lo que sería falso que <span class="math inline">\(A\)</span> implicara <span class="math inline">\(B\)</span> si <span class="math inline">\(B\)</span> es falso). La pregunta es por qué el que algo falso implique algo falso es verdadero. Creo que la mejor forma de verlo es <a href="https://math.stackexchange.com/a/2260947/251366">con un ejemplo</a> “Si tengo un unicornio <span class="unicorn-face"></span> en mi casa entonces está hambriento” es un enunciado verdadero por vacuidad: no hay ningún unicornio en mi casa (<span class="no-entry-sign"></span><span class="unicorn-face"></span><span class="house-with-garden"></span>) que <em>no</em> esté hambriento (<span class="math inline">\(A\)</span> es tener el unicornio en la casa y <span class="math inline">\(B\)</span> es que esté hambriento).</p>
+<p>Como seguro ya adivinaste, <span class="math inline">\(A \Rightarrow B\)</span> es la notación favorita en lugar de <span class="math inline">\(\Rightarrow(A,B)\)</span>.</p>
+<p>Finalmente, el <strong>si y sólo si</strong>, <span class="math inline">\(\Leftrightarrow\)</span>, es una función de dos proposiciones <span class="math inline">\(A,B\)</span> que generalmente se denota <span class="math inline">\(A \Leftrightarrow B\)</span> (en lugar del más elegante <span class="math inline">\(\Leftrightarrow(A,B)\)</span>). Ésta es equivalente a <span class="math inline">\((A \Rightarrow B) \land (B \Rightarrow A)\)</span>. Es decir, es una doble implicación. Éste es el primer ejemplo de un connector <strong>redundante</strong> es decir, dados los conectores <span class="math inline">\(\Rightarrow\)</span> y <span class="math inline">\(\land\)</span> el sí y sólo si (<span class="math inline">\(\Leftrightarrow\)</span>) no es una <em>nueva</em> operación pues todos sus resultados pueden construirse a partir de <span class="math inline">\(\Rightarrow\)</span> y <span class="math inline">\(\land\)</span>. Veamos un ejemplo más de redundancia:</p>
+
+<div class="panel panel-primary">
+	<div id =  Teorema0.484287132741883Redundancia de la implicación class="panel-heading">
+		<h5> Teorema 1 [ Redundancia de la implicación ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+El operador $\Rightarrow$ es redundante dados los operadores $\land$, $\lor$ y $\lnot$.
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+<br><b> Idea </b><br>
+Veamos que podemos construir todos los posibles resultados de $\Rightarrow$ usando $\land$, $\lor$ y $\lnot$. Sean $A$, $B$ proposiciones. Nota que si $A$ y $B$ es verdadero esto es equivalente a $A \land B$ que es verdadero si ambos lo son. Por otro lado, si $A$ es verdadero y $B$ falso entonces $A \Rightarrow B$ es verdadero (esto sería equivalente a $A \land (\lnot B)$). Si tanto $A$ como $B$ son falsos entonces $A\Rightarrow B$ es verdadero lo cual es equivalente a $(\lnot A) \land (\lnot B)$. (Seguro, ya para este punto te perdiste y me estás dando el avión. Si éste es tu caso, vuelve: léelo con calma, es denso y puede que requieras una pluma y hoja al lado para corroborar que no te engañé y realmente entenderlo; si este no es tu caso, disculpa este mensaje era para otra persona). Por lo cual, hasta ahora, tenemos de tres opciones: $A \land B$ ó $A \land (\lnot B)$ ó $(\lnot A) \land (\lnot B)$ que pueden resumirse en: 
+\begin{equation}\nonumber
+\big( A \land B\big) \lor \big( A \land (\lnot B) \big) \lor \big( (\lnot A) \land (\lnot B) \big)
+\end{equation}
+Nota que el caso $A$ falsa y $B$ verdadera vuelve falsa toda la expresión anterior que es justo lo que nos gustaría para $A \Rightarrow B$ en ese caso.
+(Hola ¿sigues aquí? espero no te hayas perdido en todos los $A$ y no $A$. Si te perdiste, reléelo.)
+<br>
+<br><b> Demostración (ahora sí va en serio <span class='man-tipping-hand'></span>)</b><br>
+Sean $A$, $B$ proposiciones; entonces $A \Rightarrow B$ es equivalente a:
+\begin{equation}\label{ecver}
+\big( A \land B\big) \lor \big( A \land (\lnot B) \big) \lor \big( (\lnot A) \land (\lnot B) \big)
+\end{equation}
+Podemos verlo por casos:
+<ol>
+<li> Si $A$ y $B$ son verdaderas entonces $\big( A \land B\big)$ es verdadera por lo cual $\big( A \land B\big) \lor \big( A \land (\lnot B) \big)$ es verdadera. Consecuentemente $\big( A \land B\big) \lor \big( A \land (\lnot B) \big) \lor \big( (\lnot A) \land (\lnot B) \big)$ es verdadera porque al menos uno de los elementos es verdadera y finalmente \eqref{ecver} es verdadera. Esto equivale a $A \Rightarrow B$ en el caso de ambas verdaderas. </li>
+
+<li> Si $A$ es verdadera y $B$ es falsa entonces $\big( A \land (\lnot B) \big)$ es verdadera por lo cual $\big( A \land B\big) \lor \big( A \land (\lnot B) \big)$ es verdadera. Consecuentemente $\big( A \land B\big) \lor \big( A \land (\lnot B) \big) \lor \big( (\lnot A) \land (\lnot B) \big)$ es verdadera porque al menos uno de los elementos es verdadera y finalmente \eqref{ecver} es verdadera. De nuevo, esto es equivalente a $A \Rightarrow B$ si $A$ es verdadera pero $B$ no lo es.</li>
+
+<li> Si $A$ es falsa y $B$ es falsa entonces $\big( A \land B \big)$ es falsa. También $\big( A \land (\lnot B) \big)$ es falsa por lo cual $\big( A \land B\big) \lor \big( A \land (\lnot B) \big)$ es falsa. Por otro lado, $(\lnot A) \land (\lnot B)$ es verdadera; consecuentemente $\big( A \land B\big) \lor \big( A \land (\lnot B) \big) \lor \big( (\lnot A) \land (\lnot B) \big)$ es verdadera porque al menos uno de los elementos es verdadera y finalmente \eqref{ecver} es verdadera por la misma razón. Esto es equivalente a $A \Rightarrow B$ en el caso de ambas falsas.</li>
+
+<li> Si $A$ es falsa y $B$ es verdadera  entonces $\big( A \land B \big)$ es falsa. También $\big( A \land (\lnot B) \big)$ es falsa por lo cual $\big( A \land B\big) \lor \big( A \land (\lnot B) \big)$ es falsa. La expresión $(\lnot A) \land (\lnot B)$ también es falsa; consecuentemente $\big( A \land B\big) \lor \big( A \land (\lnot B) \big) \lor \big( (\lnot A) \land (\lnot B) \big)$ continúa siendo falsa. Por tanto \eqref{ecver} es falsa y esto es equivalente a $A \Rightarrow B$ en el caso de $A$ falsa y $B$ verdadera. </li>
+</ol>
+
+Concluimos que $A \Rightarrow B$  es equivalente a la expresión de \eqref{ecver} por lo que el conector $\Rightarrow$ es redundante.
+ 
+		</div>
+	</div>
+</div>
+
+En el teorema anterior utilicé paréntesis alocadamente. Creo que es tiempo de explicarlos (el mejor momento hubiera sido antes pero apenas me acordé). Los paréntesis en esto funcionan igual que en la aritmética usual: lo que está entre paréntesis se hace primero. Por otro lado al igual que en la aritmética se evalúa primero potencia; luego multiplicación y finalmente suma: <span class="math inline">\(a\cdot( b + c)^2 = a\cdot b^2 + 2 \cdot a \cdot b \cdot c + a\cdot c^2\)</span> es el verdadero valor en contraste con <span class="math inline">\(a\cdot( b + c)^2 = (a\cdot b + a\cdot c)^2\)</span> ó <span class="math inline">\(a\cdot( b + c)^2 = a\cdot b + c^2\)</span>. En el cálculo proposicional también podemos establecer presedencia de los operadores. En nuestro caso ésta estará dada por: 1) <span class="math inline">\(\lnot\)</span>, 2) <span class="math inline">\(\land, \lor\)</span> y 3) <span class="math inline">\(\Rightarrow, \Leftrightarrow\)</span>. Bajo este acuerdo, podemos escribir:
+<span class="math display">\[\begin{equation}\nonumber
+\lnot A \land B \Rightarrow C \lor D
+\end{equation}\]</span>
+<p>y que se entienda como <span class="math inline">\(\big( (\lnot A) \land B) \Rightarrow (C \lor D)\big)\)</span>.</p>
+
+<div class="panel panel-success">
+	<div id =  nand class="panel-heading">
+		<h5> Ejercicio 1 [ El NAND es la onda ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+¿Será que al decir que $\Rightarrow$ es redundante ya acabamos con todos los operadores redundantes? Resulta que no. Probablemente conoces las leyes de De Morgan (si no las conoces, no te apures, ya las conocerás <i> demasiado bien </i>):
+\begin{equation}\nonumber
+\lnot (A \land B) \equiv \lnot A \lor \lnot B
+\end{equation}
+lo cual (¿por qué?) vuelve redundante al operador $\lor$. Lo más genial es que podemos definir un nuevo operador <code>NAND</code> el cual lo podemos definir por su equivalencia:
+\begin{equation}\nonumber
+\texttt{NAND}(A,B) \equiv \lnot (A \land B)
+\end{equation}
+El nombre de <code>NAND</code> se sigue de la definición dado que los conectores involucrados son <b>NOT AND</b>. 
+<b>Demuestra que los operadores $\lnot$,$\lor$,$\land$ son redundantes si se tiene el <code>NAND</code> por lo que, todo el cálculo de predicados se reduce a saber usar el <code>NAND</code> </b>; es decir, dado el <code>NAND</code> no requerimos ningún otra operación para llegar a todos los resultados de la lógica proposicional. 
+</i>	</div>
+</div>
+
+<p>Seguro te estarás preguntando ¿y este cuento a qué viene con todo el rollo de <strong>plausibilidad</strong>? A mí me gustaría que la <strong>plausibilidad</strong> se basara en proposiciones; que dadas dos proposiciones <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> pudiéramos hablar de la plausibilidad de <span class="math inline">\(A\)</span> y de la de <span class="math inline">\(B\)</span> (cada una por su lado) así como la plausibilidad de <span class="math inline">\(A \land B\)</span>, de la de <span class="math inline">\(\lnot A\)</span>, de la de <span class="math inline">\(\lnot B\)</span> y de la de <span class="math inline">\(A \lor B\)</span>. Este rollo era para poder empezar a hablar de las reglas de la plausibilidad y expresarlo con operaciones lógicas lo cual veremos en la siguiente sección.</p>
+
+<div class="panel panel-success">
+	<div id =  logic class="panel-heading">
+		<h5> Ejercicio 2 [ Lógica multivaluada ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Cuando propuse los valores que podían asignar a proposiciones decidí que estos eran verdadero ($\mathbb{V}$) ó falso ($\mathbb{F}$). En esta sección agregaré un tercer valor. Una proposición podrá ser, verdadera $\mathbb{V}$, falsa $\mathbb{F}$ o ni verdadera ni falsa (simbolizada por mí con <span class='grinning-cat-face'></span></i> en honor a <a href = 'https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat'>Schrödinger</a>). En este sentido, podemos asignar distintos valores a los conectores como se establece en la tabla:
+<br>
+<table style = 'margin: 0 auto; width: 50%; text-align:center;'>
+<thead style = 'border-bottom: 1px solid #000;'>
+  <tr>
+    <th>$A$</th>
+    <th>$B$</th> 
+    <th>$\lnot A$</th>
+    <th>$A \land B$</th>
+    <th>$A \lor B$</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{V}$</td> 
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{V}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td> 
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{V}$</td>
+    <td><span class='grinning-cat-face'></span></i></td> 
+    <td>$\mathbb{F}$</td>
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td>$\mathbb{V}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td> 
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{F}$</td> 
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{F}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{F}$</td>
+    <td><span class='grinning-cat-face'></span></i></td> 
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td>
+    <td><span class='grinning-cat-face'></span></i></td>
+  </tr>
+  <tr>
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td>$\mathbb{V}$</td> 
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td>$\mathbb{V}$</td>
+  </tr>
+  <tr>
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td>$\mathbb{F}$</td> 
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td>$\mathbb{F}$</td>
+    <td><span class='grinning-cat-face'></span></i></td>
+  </tr>
+  <tr>
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td><span class='grinning-cat-face'></span></i></td> 
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td><span class='grinning-cat-face'></span></i></td>
+    <td><span class='grinning-cat-face'></span></i></td>
+  </tr>
+</tbody>
+</table>
+<br>
+Una vez establecidos los valores:
+<ol>
+  <li>Establece reglas (razonables) de cómo se verían $A \Rightarrow B$ y $A \Leftrightarrow B$. De tal forma que si eliminamos a <span class='grinning-cat-face'></span></i> de las combinaciones se sigan cumpliendo las reglas originales de la lógica bivaluada (la usual, de hace rato).</li>
+  <li>¿Será que podemos reducir todas las operaciones a una sola así como hicimos en el caso del <code>NAND</code>? Demuestra tu respuesta.</li>
+</ol>
+</i>	</div>
+</div>
+
+</div>
+<div id="lista-de-deseos-para-la-plausibilidad" class="section level3">
+<h3><span class="header-section-number">1.2.2</span> Lista de deseos para la plausibilidad</h3>
+<p>Dada una proposición, <span class="math inline">\(A\)</span>, voy a denotar <span class="math inline">\(\mathfrak{pl}(A)\)</span> a su <em>plausibilidad</em> (lo que sea que esto signifique). ¿Cómo traducir la plausibilidad a un contexto matemático<span class="thinking-face"></span>? Como la plausibilidad <span class="math inline">\(\mathfrak{pl}\)</span> opera sobre proposiciones podemos pensarla como una función que toma valores en un <strong>conjunto de proposiciones <span class="math inline">\(\mathcal{F}\)</span></strong> y les asigna algo. En particular, la plausibilidad no necesariamente tiene que ser un número; por ejemplo, si contrastamos las afirmaciones <em>“es muy plausible que repruebe el examen de probabilidad”</em> contra <em>“es poco plausible que repruebe el examen de probabilidad”</em> nos damos cuenta que a la proposición <em>“Reprobar el examen de probabilidad”</em> le estamos asignando diferentes plausibilidades no numéricas: <em>“muy”</em> y <em>“poco”</em>.</p>
+<p>El párrafo anterior nos da varios caminos a explorar para la plausibilidad:</p>
+<ol style="list-style-type: decimal">
+<li>¿Cómo es el conjunto <span class="math inline">\(\mathcal{F}\)</span> de proposiciones sobre las cuales podemos hablar de plausibilidad?</li>
+<li>En el ejemplo del examen; parece que podemos <em>comparar</em> plausibilidades afirmando que una es más plausible que otra. ¿Será que podemos hablar de un orden en las plausibilidades?</li>
+<li>¿Quién es el rango de la plausibilidad? Es decir ¿cómo se ve el conjunto de valores de <span class="math inline">\(\mathfrak{pl}(A)\)</span>?</li>
+</ol>
+<div id=" Advertencia0.395045206649229 " class="alert alert-warning">
+<b> Advertencia : </b> El concepto de <i>plausibilidad</i> no es una idea muy famosa en matemáticas ni tiene un significado inequívoco (así como ‘valor absoluto en <span class="math inline">\(\mathbb{R}\)</span>’ quizá lo tiene). <span class="citation">Polya (1990)</span> y <span class="citation">Jaynes (2003)</span> hablan de plausibilidad y razonamiento plausible mientras que <span class="citation">Cox (1946)</span> le llama <i>verosimilitud</i> (un término que en estadística significa otra cosa). Aquí yo sigo más que nada a <span class="citation">Jaynes (2003)</span> pero evitando (lo más posible) la parte bayesiana a la que quizá yo vuelva después pero por ahora nos desviaría mucho del temario.
+</div>
+<div id="el-conjunto-mathcalf-o-put-a-ring-on-it" class="section level4">
+<h4><span class="header-section-number">1.2.2.1</span> El conjunto <span class="math inline">\(\mathcal{F}\)</span> o <a href="https://www.youtube.com/watch?v=4m1EFMoRFvY">“Put a ring on it”“</a></h4>
+Comenzaré con el análisis del conjunto <span class="math inline">\(\mathcal{F}\)</span> sobre el cual opera la plausibilidad. Para esto, considera el caso no trivial más sencillo: tenemos dos proposiciones distintas <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> en <span class="math inline">\(\mathcal{F}\)</span> (¿por qué es este el caso no trivial más sencillo?). Para aterrizarlo supón que <span class="math inline">\(A\)</span> es <em>“Reprobar el examen de probabilidad”</em> y <span class="math inline">\(B\)</span> es <em>“Ir de viaje la próxima semana”</em>. Puedes preguntarte por la plausibilidad de reprobar, <span class="math inline">\(\mathfrak{pl}(A)\)</span> así como la del viaje <span class="math inline">\(\mathfrak{pl}(B)\)</span>. Pero también puedes preguntarte por la plausibilidad de que repruebes y luego el viaje te ayude a quitarte el mal sabor de boca, <span class="math inline">\(\mathfrak{pl}(A \land B)\)</span>, o la plausibilidad de que al menos una de las dos opciones pase <span class="math inline">\(\mathfrak{pl}(A \lor B)\)</span>. Podrías querer hablar de la plausibilidad de que no repruebes, <span class="math inline">\(\mathfrak{pl}(\lnot A)\)</span> o bien, de que no te vayas de viaje: <span class="math inline">\(\mathfrak{pl}(\lnot B)\)</span>. ¿Tiene sentido, cierto? Es decir, lo que acabamos de concluir es que si <span class="math inline">\(A,B \in \mathcal{F}\)</span> entonces también debe ocurrir que <span class="math inline">\(A \land B\)</span>, <span class="math inline">\(A \lor B\)</span>, <span class="math inline">\(\lnot A\)</span> y <span class="math inline">\(\lnot B\)</span> estén en <span class="math inline">\(\mathcal{F}\)</span>.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> Es decir tenemos la siguiente regla expresada simbólicamente:
+<span class="math display">\[\begin{equation}\nonumber
+A,B \in \mathcal{F} \Rightarrow A \land B, A \lor B, \lnot A, \lnot B \in \mathcal{F}
+\end{equation}\]</span>
+<p>De hecho, podemos simplificar esta regla olvidándonos, por ejemplo, del <span class="math inline">\(\land\)</span> pues <span class="math inline">\(A \land B = \lnot (\lnot A \lor \lnot B)\)</span>. Podemos entonces proponer los siguientes dos axiomas (más simples) para <span class="math inline">\(\mathcal{F}\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>Si <span class="math inline">\(A \in \mathcal{F}\)</span> entonces <span class="math inline">\(\lnot A \in \mathcal{F}\)</span>.
+</li></li>
+<li>Si <span class="math inline">\(A,B \in \mathcal{F}\)</span> entonces <span class="math inline">\(A \lor B \in \mathcal{F}\)</span>.
+</li></li>
+</ol>
+<p>Veamos, por ejemplo, cómo esto implica que <span class="math inline">\(A \land B \in \mathcal{F}\)</span>.</p>
+
+<div class="panel panel-primary">
+	<div id =  Teorema0.907269182614982Pruebas con el conjunto de proposiciones $\mathcal{F}$ class="panel-heading">
+		<h5> Teorema 2 [ Pruebas con el conjunto de proposiciones $\mathcal{F}$ ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $\mathcal{F}$ un conjunto de proposiciones que cumple los axiomas:
+<ol>
+<li> Si $A \in \mathcal{F}$ entonces $\lnot A \in \mathcal{F}$. </li>
+<li> Si $A,B \in \mathcal{F}$ entonces $A \lor B \in \mathcal{F}$. </li>
+</ol>
+Se tiene entonces que $A \land B \in \mathcal{F}$. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+De 1, tenemos que $\lnot A \in \mathcal{F}$ y $\lnot B \in \mathcal{F}$. Tenemos por el punto 2 que $\lnot A \lor \lnot B \in \mathcal{F}$ y de nuevo por el punto 1 la negación de esto está en $\mathcal{F}$: $\lnot (\lnot A \lor \lnot B) \in \mathcal{F}$. Falta ver que $A \land B \equiv \lnot (\lnot A \lor \lnot B)$; para ello, podemos analizar su tabla de verdad:
+<br>
+<table style = 'margin: 0 auto; width: 50%; text-align:center;'>
+<thead style = 'border-bottom: 1px solid #000;'>
+  <tr>
+    <th>$A$</th>
+    <th>$B$</th> 
+    <th>$A \land B$</th>
+    <th>$(\lnot A \lor \lnot B)$</th>
+    <th>$\lnot(\lnot A \lor \lnot B)$</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td> 
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{V}$</td> 
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td> 
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td>
+  </tr>
+  <tr>
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{F}$</td> 
+    <td>$\mathbb{F}$</td>
+    <td>$\mathbb{V}$</td>
+    <td>$\mathbb{F}$</td>
+  </tr>
+</tbody>
+</table>
+<br>
+Como en las tablas de verdad coinciden en todos los valores de $A$ y $B$ entonces tenemos $A \land B \equiv \lnot (\lnot A \lor \lnot B)$ lo cual termina la prueba.
+ 
+		</div>
+	</div>
+</div>
+
+<div id=" Advertencia0.847321738256142 " class="alert alert-warning">
+<p><b> Advertencia : </b> La relación <span class="math inline">\(\equiv\)</span> entre dos proposiciones es una relación de equivalencia (no igualdad). Propiamente hablando en el teorema anterior no demostramos que <span class="math inline">\(A \land B\)</span> estuviera en el conjunto sino que un objeto de la misma clase de equivalencia, el <span class="math inline">\(\lnot (\lnot A \lor \lnot B)\)</span> está en <span class="math inline">\(\mathcal{F}\)</span>. Formalmente, se definen clases de equivalencia entre proposiciones si sus valores de verdad coinciden (<span class="math inline">\(A \equiv B\)</span> si <span class="math inline">\(A \equiv \mathbb{V}\)</span> y <span class="math inline">\(B \equiv \mathbb{V}\)</span> ó si <span class="math inline">\(A \equiv \mathbb{F}\)</span> y <span class="math inline">\(B \equiv \mathbb{F}\)</span>) y se trabaja sobre los representantes de la clase.</p>
+A partir de ahora; para facilitar la notación me olvidaré del simbolito <span class="math inline">\(\equiv\)</span> de equivalencia y usaré <span class="math inline">\(=\)</span>.
+</div>
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.98699890030548Pruebas con el conjunto de proposiciones $\mathcal{F}$ class="panel-heading">
+		<h5> Ejercicio 3 [ Pruebas con el conjunto de proposiciones $\mathcal{F}$ ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $\mathcal{F}$ un conjunto de proposiciones que cumple que:
+<ol>
+<li> Si $A \in \mathcal{F}$ entonces $\lnot A \in \mathcal{F}$. </li>
+<li> Si $A,B \in \mathcal{F}$ entonces $A \lor B \in \mathcal{F}$. </li>
+</ol>
+Demuestra que $\texttt{NAND}(A,B) \in \mathcal{F}$. 
+</i>	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.114267384167761Pruebas con el conjunto de proposiciones $\mathcal{F}$ class="panel-heading">
+		<h5> Ejercicio 4 [ Pruebas con el conjunto de proposiciones $\mathcal{F}$ ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Demuestra que si $A,B$ son proposiciones se tiene que
+\begin{equation}\nonumber
+\Big( \lnot \big( (\lnot A) \lor (\lnot B) \big) \Big) \lor \Big( \lnot \big( (\lnot A) \lor B \big) \Big) \equiv A
+\end{equation}
+</i>	</div>
+</div>
+
+Con los incisos 1. y 2. anteriores tenemos una buena estructura para el <span class="math inline">\(\mathcal{F}\)</span> ¿puedes identificar qué estructura algebraica sigue <span class="math inline">\(\mathcal{F}\)</span>? Para identificarla, quizá nos falta ver más propiedades deseables sobre las proposiciones. Me gustaría, por ejemplo que dadas dos proposiciones <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> fuera lo mismo decir <span class="math inline">\(A\)</span> ó <span class="math inline">\(B\)</span> que <span class="math inline">\(B\)</span> ó <span class="math inline">\(A\)</span>; es decir:
+<span class="math display">\[\begin{equation}\label{conmutabool}
+A \lor B = B \lor A
+\end{equation}\]</span>
+Por otro lado, con tres proposiciones <span class="math inline">\(A\)</span>,<span class="math inline">\(B\)</span> y <span class="math inline">\(C\)</span> debería ser lo mismo decir: <em>estoy entre <span class="math inline">\(A\)</span> ó <span class="math inline">\(B\)</span> ó <span class="math inline">\(C\)</span></em> a <em>estoy entre <span class="math inline">\(A\)</span> o bien cualquiera de las dos: <span class="math inline">\(B\)</span> ó <span class="math inline">\(C\)</span></em>:
+<span class="math display">\[\begin{equation}\label{asociabool}
+(A \lor B) \lor C = A \lor (B \lor C)
+\end{equation}\]</span>
+Recordando que <span class="math inline">\(A \land B = \lnot (\lnot A \lor \lnot B)\)</span> podemos ver que:
+<span class="math display">\[\begin{equation}\label{absorbool}
+A \lor (A \land B) = A
+\end{equation}\]</span>
+mientras que también se cumple una distributividad:
+<span class="math display">\[\begin{equation}\label{distribool}
+A \lor (B \land C) = (A \lor B) \land (A \lor C)
+\end{equation}\]</span>
+Por último, supongamos tenemos <span class="math inline">\(n\)</span> (<span class="math inline">\(n &lt; \infty\)</span>) proposiciones: <span class="math inline">\(A_1, A_2, \dots, A_n\)</span>. Si definimos <span class="math inline">\(\bar{0} := \lnot(A_1 \lor A_2 \lor \dots \lor A_n)\)</span> entonces resulta que <span class="math inline">\(\bar{0}\)</span> es un neutro para la operación <span class="math inline">\(\lor\)</span>:
+<span class="math display">\[\begin{equation}\label{cerobool}
+A \lor \bar{0} = A
+\end{equation}\]</span>
+Finalmente, definimos <span class="math inline">\(\bar{1} := \lnot \bar{0}\)</span>. En este caso, combinando con las leyes de De Morgan notamos que:
+<span class="math display">\[\begin{equation}
+\big( A \land (\lnot A) \big)= \bar{0} \quad \Rightarrow (\lnot A) \lor A = \lnot \big( A \land (\lnot A) \big) = \lnot\bar{0} = \bar{1}
+\end{equation}\]</span>
+Observa que los anteriores y la definición de <span class="math inline">\(\land\)</span> implican proposiciones similares en términos de éste:
+<span class="math display">\[\begin{equation}\label{asocia}
+\begin{aligned}
+A \land (B \land C) &amp; = (A \land B) \land C \\
+A \land B &amp; = B \land A \\
+A \land (A \lor B) &amp; = A \\
+A \land \bar{1} &amp; = A\\
+A \land (B \lor C) &amp; = (A\land B) \lor (A \land C) \\
+A \land \lnot A &amp; = \bar{0}
+\end{aligned}
+\end{equation}\]</span>
+<p>Podemos juntar toda esta lista de deseos en la definición (preliminar) de una estructura algebraica que capture todas estas operaciones: un álgebra booleana (se pronuncia <em>buleana</em>).</p>
+
+<div class="panel panel-info">
+	<div id =  alg class="panel-heading">
+		<h5> Definición 1 [ Álgebra Booleana ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $\mathcal{F}$ un conjunto con dos operaciones binarias $(\land, \lor)$ y una unitaria ($\lnot$). Decimos que $\big(\mathcal{F}, (\land, \lor, \lnot) \big)$ es un álgebra si para todo $A,B,C \in \mathcal{F}$ se cumplen los siguientes axiomas:
+<ol>
+  <li>$A \land (B \land C)  = (A \land B) \land C$,</li>
+  <li>$A \land B = B \land A$, </li>
+  <li>$A \land (A \lor B) = A$, </li>
+  <li>$A \land (B \lor C) = (A \land B) \lor (A \land C)$, </li>
+  <li>$A \land \lnot A = \bar{0}$, </li>
+  <li>$A \lor (B \lor C) = (A \lor B) \lor C$, </li>
+  <li>$A \lor B = B \lor A$, </li>
+  <li>$A \lor (A \land B) = A$, </li>
+  <li>$A \lor (B \land C) = (A\lor B) \land (A \lor C)$, </li>
+  <li>$A \lor \lnot A = \bar{1}$. </li>
+</ol>
+</i>	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.117486143484712Lógica multivaluada 2 class="panel-heading">
+		<h5> Ejercicio 5 [ Lógica multivaluada 2 ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Considera la lógica multivaluada del <a href = '#logic'>ejercicio pasado</a> donde introdujimos el tercer valor posible para una proposición, <span class='grinning-cat-face'></span></i>, que no era verdadero ni falso.
+<ol>
+  <li>¿En este caso también podemos formar un álgebra booleana?</li>
+</ol>
+</i>	</div>
+</div>
+
+<p>La anterior definición tiene demasiados axiomas; <span class="citation">Huntington (1933)</span> se dio cuenta que podían reducirse a 3 y acortar la definición para obtener la siguiente definición equivalente.</p>
+
+<div class="panel panel-primary">
+	<div id =  Teorema0.713789030443877Definición alternativa class="panel-heading">
+		<h5> Teorema 3 [ Definición alternativa ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+La siguiente definición es equivalente a la de <a href = '#alg'> álgebra booleana </a> especificada anteriormente:
+
+Sea $\mathcal{F}$ un conjunto con una operación binaria $\lor$ y una operación unitaria $\lnot$ que cumplen que para todo $A,B,C \in \mathcal{F}$:
+<ol>
+  <li>$A \lor B  = B \lor A$,</li>
+  <li>$(A \lor B) \lor C  = A \lor (B \lor C)$,</li>
+   <li>$\Big( \lnot \big( (\lnot A) \lor (\lnot B) \big) \Big) \lor \Big( \lnot \big( (\lnot A) \lor B \big) \Big) = A$</li>
+</ol>
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Más adelante. 
+		</div>
+	</div>
+</div>
+
+<p>La demostración de la equivalencia en las definiciones la relego a la sección siguiente. Éste es un apartado técnico. Mi sugerencia es que en la primera lectura te lo saltes, sigas con la idea de la plausibilidad y más adelante vuelvas a la demostración (que no agrega nada en términos de <em>idea</em>)</p>
+</div>
+<div id="demostracion-de-la-equivalencia-de-la-definicion-con-la-de-huntington" class="section level4">
+<h4><span class="header-section-number">1.2.2.2</span> Demostración de la equivalencia de la definición con la de Huntington</h4>
+</div>
+<div id="el-orden-de-las-proposiciones" class="section level4">
+<h4><span class="header-section-number">1.2.2.3</span> El orden de las proposiciones</h4>
+<p>Hay dos formas de darnos cuenta que podemos <em>inducir</em> un orden en las proposiciones: <span class="citation">Givant &amp; Halmos (2008)</span></p>
+</div>
+<div id="el-rango-de-la-plausibilidad" class="section level4">
+<h4><span class="header-section-number">1.2.2.4</span> El rango de la plausibilidad</h4>
+<p>Por último, estudiemos dónde caen las plausibilidades. Para ello conectemos dos cosas que ya sabemos. La primera es que las proposiciones tienen un orden y las plausibilidades deberían reflejarlo: si <span class="math inline">\(A \leq B\)</span> entonces <span class="math inline">\(\mathfrak{pl}(A) \leq \mathfrak{pl}(B)\)</span>. Esto implica que la <em>estructura subyacente</em> debe tener un orden. No es difícil deducir que este orden tiene que ser un <strong>orden total</strong>; es decir, dados <span class="math inline">\(A,B,C\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>Si <span class="math inline">\(\mathfrak{pl}(A) \leq \mathfrak{pl}(B)\)</span> y <span class="math inline">\(\mathfrak{pl}(A) \geq \mathfrak{pl}(B)\)</span> entonces <span class="math inline">\(\mathfrak{pl}(A) = \mathfrak{pl}(B)\)</span>.</li>
+<li>Si <span class="math inline">\(\mathfrak{pl}(A) \leq \mathfrak{pl}(B)\)</span> y <span class="math inline">\(\mathfrak{pl}(B) \leq \mathfrak{pl}(C)\)</span> entonces <span class="math inline">\(\mathfrak{pl}(A) \leq \mathfrak{pl}(C)\)</span>.</li>
+<li><span class="math inline">\(\mathfrak{pl}(A) \leq \mathfrak{pl}(B)\)</span> ó <span class="math inline">\(\mathfrak{pl}(A) \geq \mathfrak{pl}(B)\)</span>.</li>
+</ol>
+<div id=" Advertencia0.174298009602353 " class="alert alert-warning">
+<b> Advertencia : </b> Que <span class="math inline">\(\mathfrak{pl}(A) = \mathfrak{pl}(B)\)</span> de ninguna manera implica que <span class="math inline">\(A = B\)</span>. Podemos pensarlo con una moneda: a mí me parece igualmente plausible <span class="math inline">\(A \equiv\)</span><i>caiga águila</i> que <span class="math inline">\(B \equiv\)</span><i>caiga sol;</i> de esto se tiene que <span class="math inline">\(\mathfrak{pl}(A) = \mathfrak{pl}(B)\)</span> pero <span class="math inline">\(A \neq B\)</span>.
+</div>
+La segunda propiedad interesante es que si tenemos dos proposiciones que son atómicas <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> (digamos <span class="math inline">\(A \equiv\)</span> <em>“Ver un extraterrestre”</em> y <span class="math inline">\(B \equiv\)</span> <em>“El teletubbie favorito de mi crush es Po”</em>) entonces podemos hablar de sus plausibilidades (pensemos; por ejemplo que es <em>muy plausible</em> que haya visto un extraterrestre, <span class="math inline">\(\mathfrak{pl}(A) \equiv\)</span> <em>muy plausible</em>, y que el teletubbie favorito de mi crush sea Po también es muy plausible, <span class="math inline">\(\mathfrak{pl}(B) \equiv\)</span> <em>muy plausible</em>) entonces, al ser disjuntos de alguna forma se agregan dichas plausibilidades y podemos tener que la plausibilidad de que haya visto un extraterrestre o el teletubbie favorito de mi crush sea Po es <span class="math inline">\(\mathfrak{pl}(A \lor B) \equiv\)</span> <em>mucho bastante muy plausible</em> (<em>sic</em>) pues es más plausible que se cumpla al menos una de las dos a sólo una. Es decir, de alguna manera las plausibilidades de dos proposiciones atómicas <em>se pueden agregar</em> cosa que simbolizaré con <span class="math inline">\(\oplus\)</span> de la siguiente manera:
+<span class="math display">\[\begin{equation}\label{aditividadfinita}
+\mathfrak{pl}(A \lor B) = \mathfrak{pl}(A) \oplus \mathfrak{pl}(B)
+\end{equation}\]</span>
+A esta propiedad \eqref{aditividadfinita} la llamaré <strong>aditividad finita</strong>. A partir de este momento, asumiré que toda plausibilidad la cumple para todas proposiciones <em>atómicas</em> <span class="math inline">\(A,B\)</span>. Por último, dos reglas que postularé <em>trivium quadrivium</em><a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a> es que las plausibilidades son conmutativas:
+<span class="math display">\[\begin{equation}\nonumber
+\mathfrak{pl}(A) \oplus \mathfrak{pl}(B) = \mathfrak{pl}(B) \oplus \mathfrak{pl}(A);
+\end{equation}\]</span>
+así como asociativas:
+<span class="math display">\[\begin{equation}\nonumber
+\big( \mathfrak{pl}(A) \oplus \mathfrak{pl}(B) \big) \oplus \mathfrak{pl}(C) =  \mathfrak{pl}(A) \oplus \big( \mathfrak{pl}(B)  \oplus \mathfrak{pl}(C) \big)
+\end{equation}\]</span>
+Podemos, entonces, calcular la plausibilidad del elemento <span class="math inline">\(\bar{0}\)</span>:
+<span class="math display">\[\begin{equation}\nonumber
+\mathfrak{pl}(\bar{0}) = \mathfrak{pl}(\bar{0} \lor \bar{0}) = \mathfrak{pl}(\bar{0}) \oplus \mathfrak{pl}(\bar{0})
+\end{equation}\]</span>
+<p>de donde, se antojaría (¿a poco no?) poder eliminar uno de los <span class="math inline">\(\mathfrak{pl}(\bar{0})\)</span> de la derecha y concluir que <span class="math inline">\(\mathfrak{pl}(\bar{0}) = 0\)</span>. Esto lo haremos postulando que el espacio de plausibilidades es un <strong>grupo abeliano</strong> con el <strong>orden total</strong> expuesto previamente:</p>
+
+<div class="panel panel-info">
+	<div id =  Definición0.780484260292724Grupo abeliano class="panel-heading">
+		<h5> Definición 2 [ Grupo abeliano ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $\mathcal{R}$ un conjunto con una operación $\oplus$ que cumple que para todo $p,q,r \in \mathcal{R}$ se tiene:
+<ol>
+  <li><b>Cerradura:</b> $p \oplus q \in \mathcal{R}$,</li>
+  <li><b>Conmutatividad: </b>$p \oplus q = q \oplus p$,</li>
+  <li><b>Asociatividad:</b> $p \oplus (q \oplus r) = (p \oplus q) \oplus r$,</li>
+  <li><b>Existencia del neutro:</b> $\exists \hat{0} \in \mathcal{R}$ tal que $p \oplus \hat{0} = p$,</li>
+  <li><b>Existencia del inverso:</b> $\exists -p \in \mathcal{R}$ tal que $p \oplus -p = \hat{0}$.</li>
+</ol>
+Entonces decimos que $\mathcal{R}$ es un <b>grupo abeliano</b>.
+</i>	</div>
+</div>
+
+Si asumimos que el espacio de plausibilidades es un grupo abeliano entonces sí podemos concluir que:
+<span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+\mathfrak{pl}(\bar{0}) &amp; = \mathfrak{pl}(\bar{0} \lor \bar{0}) = \mathfrak{pl}(\bar{0}) \oplus \mathfrak{pl}(\bar{0})
+\Rightarrow \mathfrak{pl}(\bar{0}) = \hat{0}. 
+\end{aligned}
+\end{equation}\]</span>
+<p>¿Cierto?</p>
+Ya que estamos analizando la plausibilidad de <em>la nada</em> entonces por las propiedades de orden sabemos que <span class="math inline">\(\bar{0} \leq A\)</span> para todo <span class="math inline">\(A\)</span> y por tanto tenemos la <strong>positividad</strong>:
+<span class="math display">\[\begin{equation}\label{positividad}
+\mathfrak{pl}(A) \geq \hat{0}  
+\end{equation}\]</span>
+Podemos preguntarnos, por ejemplo, por la plausibilidad de la diferencia de proposiciones <span class="math inline">\(A \setminus B\)</span>:
+<span class="math display">\[\begin{equation}\nonumber
+\mathfrak{pl}(A \setminus B) = \mathfrak{pl}(A) - \mathfrak{pl}(A \land B).
+\end{equation}\]</span>
+<p>que se sigue de que <span class="math inline">\(A = (A \setminus B) \lor (A \land B)\)</span> y de la aditividad finita \eqref{aditividadfinita}.</p>
+La propiedad de <strong>monotonicidad</strong> dice que si <span class="math inline">\(B \leq A\)</span> entonces <span class="math inline">\(\mathfrak{pl}(B) \leq \mathfrak{pl}(A)\)</span>. Esto se demuestra a partir de <span class="math inline">\(B \leq A\)</span> implica que <span class="math inline">\(A \land B = B\)</span> y por tanto:
+<span class="math display">\[\begin{equation}\nonumber
+\mathfrak{pl}(A \setminus B) = \mathfrak{pl}(A) - \mathfrak{pl}(B);
+\end{equation}\]</span>
+finalmente, se utiliza que <span class="math inline">\(\hat{0} \leq \mathfrak{pl}(A \setminus B)\)</span> por positividad \eqref{positividad}. Otra propiedad que se puede demostrar es el principio de inclusión exclusión para proposiciones <strong>que no necesariamente son atómicas</strong>:
+<span class="math display">\[\begin{equation}\label{ej1}
+\mathfrak{pl}(A \lor B) = \mathfrak{pl}(A) \oplus   \mathfrak{pl}(B) - \mathfrak{pl}(A \land B);
+\end{equation}\]</span>
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.934430503286421Principio de inclusión exclusión class="panel-heading">
+		<h5> Ejercicio 6 [ Principio de inclusión exclusión ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Demuestra la ecuación \eqref{ej1}.
+</i>	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.683688490185887Cota superior a la plausibilidad class="panel-heading">
+		<h5> Ejercicio 7 [ Cota superior a la plausibilidad ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Demuestra que $\mathfrak{pl}(A) \leq \mathfrak{pl}(\bar{1})$.
+</i>	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.83901523728855Plausibilidad de la negación class="panel-heading">
+		<h5> Ejercicio 8 [ Plausibilidad de la negación ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Demuestra que $\mathfrak{pl}(\lnot A) = \mathfrak{pl}(\bar{1}) - \mathfrak{pl}(A)$.
+</i>	</div>
+</div>
+
+Supongamos tenemos un conjunto <em>finito</em> de proposiciones atómicas; en ese caso podemos poner a las plausibilidades en correspondencia con un subconjunto finito de <span class="math inline">\(\mathbb{Q}\)</span>. Por ejemplo, si tenemos <span class="math inline">\(A_1, A_2, A_3\)</span> y <span class="math inline">\(A_4\)</span> como proposiciones atómicas entonces podemos asignarles un subconjunto de <span class="math inline">\(\mathbb{Q}\)</span>; por ejemplo si <span class="math inline">\(A_1 \leq A_2\)</span>, <span class="math inline">\(A_2 = A_3\)</span> y <span class="math inline">\(A_3 \leq A_4\)</span> se pueden asignar las siguientes plausibilidades numéricas (nada más porque se me ocurrieron):
+<span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+\mathfrak{pl}(A_1) &amp; = \dfrac{23}{177}, \\\\
+\mathfrak{pl}(A_2) &amp; = 12, \\\\
+\mathfrak{pl}(A_3) &amp; = 12, \\\\
+\mathfrak{pl}(A_4) &amp; = \dfrac{10^{672}}{17}.
+\end{aligned}
+\end{equation}\]</span>
+Podemos, en este caso, identificar <span class="math inline">\(\oplus\)</span> con la operación de adición usual sobre <span class="math inline">\(\mathbb{Q}\)</span>, simbolizada con <span class="math inline">\(+\)</span> y el orden total <span class="math inline">\(\leq\)</span> sería el orden total (usual) sobre <span class="math inline">\(\mathbb{Q}\)</span>. Adicionalmente, <span class="math inline">\(\hat{0}\)</span> correspondería con el cero usual <span class="math inline">\(0\)</span> de <span class="math inline">\(\mathbb{Q}\)</span>. Con esta identificación podríamos calcular cosas como la unión lógica de dos proposiciones atómicas:
+<span class="math display">\[\begin{equation}\nonumber
+\mathfrak{pl}(A_1 \lor A_2) = \mathfrak{pl}(A_1) + \mathfrak{pl}(A_2) = \dfrac{23}{177} + 12 = \dfrac{2147}{177}.
+\end{equation}\]</span>
+U otras operaciones de ese estilo (volveremos a esto más adelante; por ahora quédate con esta idea: el grupo de plausibilidad puede identificarse con un subconjunto de <span class="math inline">\(\mathbb{Q}\)</span>). En particular:
+<span class="math display">\[\begin{equation}\nonumber
+\mathfrak{pl}(\bar{1}) = \mathfrak{pl}(A_1) + \mathfrak{pl}(A_2) + \mathfrak{pl}(A_3) + \mathfrak{pl}(A_4) = \dfrac{4271}{177} + \dfrac{10^{672}}{17} \approx \textrm{Un buen}.
+\end{equation}\]</span>
+En particular <span class="math inline">\(\mathfrak{pl}(\bar{1})\)</span> podría ser cualquier cosa (sólo tiene que ser cota superior a las otras plausibilidades). Bajo esta idea de un conjunto finito de proposiciones entonces podemos asumir que <span class="math inline">\(\mathfrak{pl}(\bar{1}) = K\)</span> para algún <span class="math inline">\(K \in \mathbb{R}\)</span>.<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a> Asumiendo que <span class="math inline">\(K \neq 0\)</span> (que ocurre en el caso no trivial en el que al menos algo es plausible) siempre podemos obtener una plausibilidad <strong>normalizada</strong> cuyos valores están entre <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> dividiendo la plausibilidad no normalizada entre <span class="math inline">\(K\)</span> para toda proposición <span class="math inline">\(A\)</span>:
+<span class="math display">\[\begin{equation}\nonumber
+\underbrace{\overline{\mathfrak{pl}}(A)}_{\text{Normalizada}} = \dfrac{1}{K} \mathfrak{pl}(A)
+\end{equation}\]</span>
+Esto nos permite tener todas las plausibilidades de distintas cosas (incluso bajo distintos modelos) en la misma escala y poder compararlas. A partir de ahora utilizaré sólo plausibilidades normalizadas; es decir, tendremos que para todo <span class="math inline">\(A \in \mathcal{F}\)</span> la plausibilidad será una plausibilidad <em>normalizada</em> que toma valores entre <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> sobre <span class="math inline">\(\mathbb{Q}\)</span>:
+<span class="math display">\[\begin{equation}
+0 \leq \mathfrak{pl}(A) \leq 1, \qquad \forall A \in \mathcal{F}.
+\end{equation}\]</span>
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.757491645636037Cota superior a la plausibilidad class="panel-heading">
+		<h5> Ejercicio 9 [ Cota superior a la plausibilidad ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Demuestra que si $\overline{\mathfrak{pl}}$ es la normalización de una plausibilidad $\mathfrak{pl}$ que toma valores sobre $\mathbb{Q}$ (<i>i.e.</i> $\overline{\mathfrak{pl}}(A) = \dfrac{1}{K} \mathfrak{pl}(A)$ para $K = \mathfrak{pl}(\bar{1})$) entonces $\overline{\mathfrak{pl}}$ cumple la aditividad finita, monotonicidad, positividad y el principio de inclusión exclusión.
+</i>	</div>
+</div>
+
+</div>
+<div id="extension-hacia-la-probabilidad" class="section level4">
+<h4><span class="header-section-number">1.2.2.5</span> Extensión hacia la probabilidad</h4>
+<p>Hasta aquí hemos identificado al rango de la plausibilidad como <em>algebraicamente</em> equivalente a un subconjunto de <span class="math inline">\(\mathbb{Q}\)</span> que toma valores en el intervalo <span class="math inline">\([0,1]\)</span>. ¡Éste es un gran logro! Recuerda cómo empezó toda esta sección: pensando que había proposiciones que se podían combinar y había que ordenarlas de alguna forma: <em>sólo con eso</em> hemos construido una teoría que involucra dos tipos distintos de estructuras (álgebras booleanas y grupos abelianos con orden total) y pudimos probar distintos teoremas de la teoría (y otros quedaron como ejercicios; seguro ya los demostraste ¿cierto?). La <em>última extensión</em> que haré es asumir que la plausibilidad toma valores en <span class="math inline">\([0,1]\)</span> (completo) y no sólo sobre <span class="math inline">\(\mathbb{Q} \cap [0,1]\)</span>. La razón: todas las herramientas de Cálculo que has desarrollado en otras materias funcionan en espacios continuos como el <span class="math inline">\([0,1]\)</span>. El motivo de esta extensión es meramente técnico<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> para <em>aprovechar</em> las propiedades de los reales. A este tipo específico de plausibilidad en la siguiente sección la denominaré <em>probabilidad</em>.</p>
+<blockquote>
+En conclusión, la plausibilidad, <span class="math inline">\(\mathfrak{pl}\)</span>, puede <i>extenderse</i> para tomar valores sobre los reales. En particular se tiene que para todo <span class="math inline">\(A\)</span> en el espacio de proposiciones:
+<span class="math display">\[\begin{equation}\nonumber
+0 = \mathfrak{pl}(\bar{0}) \leq \mathfrak{pl}(A) \leq \mathfrak{pl}(\bar{1}) = 1
+\end{equation}\]</span>
+además, para proposiciones <em>atómicas</em>:
+<span class="math display">\[\begin{equation}\nonumber
+\mathfrak{pl}(A \lor B) = \mathfrak{pl}(A) + \mathfrak{pl}(B).
+\end{equation}\]</span>
+</blockquote>
+<!--
+
+### Caracterización en términos de conjuntos
+
+Por ahora, veremos la caracterización en términos de conjuntos que es el punto relevante. Para ello recuerda que si yo tengo un conjunto con operaciones definidas puedo hablar de este conjunto siendo _isomorfo_ a otro si la estructura de operaciones se mantiene. Esta idea de isomorfismo nos permitirá ver que el espacio de proposiciones es equivalente (a nivel _isomorfismo_) a un espacio de conjuntos. Esto nos permitirá definir la _plausibilidad_ como una función que opera sobre algo conocido: conjuntos. Veamos la intuición:
+
+En este ejemplo, tenemos dos proposiciones $A,B$. Las llamaré **atómicas** si $B \neq A$ y $\not B \neq A$ (es decir no son _esencialmente la misma_). De una vez, te defino una proposición como **compuesta** si ésta se obtiene de la aplicación de conectores: $A \land B$, $A \lor B$, $\lnot A$ ó $\lnot A \lor B$ son compuestas. Asociemos a cada una de estas proposiciones un conjunto de la siguiente forma:
+\begin{equation}\nonumber
+A \to \{ a \} \quad \& \quad B \to \{ b \}. 
+\end{equation}
+¿Quiénes son $A \land B$, $A \lor B$, $\bar{0}$, $\bar{1}$, $\lnot A$ y $\lnot B$ en términos de conjuntos?
+Yo propongo hacer: 
+\begin{equation}\nonumber
+\begin{aligned}
+A \land B & \to \{ a \} \cap \{ b \}   = \emptyset \\
+A \lor B  & \to \{ a \} \cup \{ b \}   = \{ a, b \} \\
+\bar{0}   & \to \emptyset \\
+\bar{1}   & \to \{ a, b \} \\
+\lnot B   & \to \{ b \}^{C}  = \{ a \} \\
+\lnot A   & \to \{ a \}^{C}  = \{ b \} 
+\end{aligned}
+\end{equation}
+En particular, todos los conjuntos resultantes: $\emptyset, \{a\}, \{b\}, \{ a, b \}$ son elementos del conjunto potencia de $\{ a, b \}$,  $\mathcal{P}\big( \{ a, b \}\big)$. Las preguntas obligadas son: ¿será que el conjunto potencia es también un álgebra booleana? ¿éste conjunto potencia cubre todas las posibilidades del álgebra booleana que tiene a las proposiciones $A,B$? ¿es esta forma de pasar de álgebras booleanas a conjuntos potencia un isomorfismo? La respuesta (a todo) es sí. Esto nos permitirá traducir estas álgebras de proposiciones a unas cosas llamadas _álgebras de conjuntos_ dentro de los cuales una clase muy particular son las $\sigma$-álgebras, creaturas esenciales en probabilidad y teoría de la medida <span class='wink'></span>. Enfrentemos el primer teorema:
+
+
+<div class="panel panel-primary">
+	<div id =  Teorema0.201989539433271El conjunto potencia es un álgebra booleana class="panel-heading">
+		<h5> Teorema 4 [ El conjunto potencia es un álgebra booleana ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $X$ un conjunto y $\mathcal{P}(X)$ su conjunto potencia; $\mathcal{P}(X)$ acompañado de las operaciones $(\cup, \cap)$ (unión e intersección) así como $(C)$ (toma de complementos) es un álgebra booleana.
+</i>	</div>
+</div>
+
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.162423879606649La demostración se deja a quien lo lea, obviamente... class="panel-heading">
+		<h5> Ejercicio 10 [ La demostración se deja a quien lo lea, obviamente... ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Demuestra el teorema anterior.
+</i>	</div>
+</div>
+
+
+Para hablar del siguiente teorema tenemos que definir el álgebra booleana _generada_ por un conjunto de proposiciones $A_1, A_2, \dots, A_n$
+
+
+Recuerda que dos conjuntos con operaciones definidas son isomorfos si son homomorfos entre sí[^4]; esto quiere decir que preservan operaciones y por tanto son _algebraicamente_ idénticos. 
+
+
+<div class="panel panel-info">
+	<div id =  Definición0.0876196115277708Homomorfismo e Isomorfismo class="panel-heading">
+		<h5> Definición 3 [ Homomorfismo e Isomorfismo ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>Un álgebra booleana $\big(\mathcal{F}, (\land_{\mathcal{F}}, \lor_{\mathcal{F}}, \lnot_{\mathcal{F}}) \big)$ es <b>homomorfa</b> (no <b>homeomorfa;</b> eso es otra cosa) a otra álgebra booleana $\big(\mathcal{P}, (\land_{\mathcal{P}}, \lor_{\mathcal{P}}, \lnot_{\mathcal{P}}) \big)$ si existe una función $f:\mathcal{F} \to \mathcal{P}$ tal que para todo $A,B\in \mathcal{F}$ se tiene que:
+\begin{equation}\nonumber
+\begin{aligned}
+f(A \lor_{\mathcal{F}} B) & = f(A) \lor_{\mathcal{P}} f(B), \\
+f(\lnot_{\mathcal{F}} A) & = \lnot_{\mathcal{P}} f(A).
+\end{aligned}
+\end{equation}
+En particular, si $f$ es biyectiva entonces $\mathcal{F}$ es <b>isomorfo</b> a $\mathcal{P}$.</i>	</div>
+</div>
+
+
+
+<div class="panel panel-primary">
+	<div id =  Teorema0.896968063199893Representación de Stone (caso finito) class="panel-heading">
+		<h5> Teorema 5 [ Representación de Stone (caso finito) ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>Todo anillo booleano generado por un número finito de proposiciones no cero $A_1, A_2, \dots, A_n$ es isomorfo a algún conjunto potencia</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Sea $\mathcal{F}$
+Asignemos a cada una de las $n$ proposiciones un conjunto que contiene a un entero dado por el índice de la proposición:
+\begin{equation}\nonumber
+A_1 \to \{1 \}, \quad A_2 \to \{2 \}, A_3 \to \{3 \}, \dots \quad A_{n} \to \{ n \}.
+\end{equation}
+Sea $\Omega = \{ A_1, A_2, \dots, A_n \}$ y denotemos su conjunto potencia como $\mathcal{P}(\Omega)$ donde definimos las operaciones determinadas por: $A \oplus_{\mathcal{P}} B = ( A \setminus B) \cup (B \setminus A)$ y $A \odot_{\mathcal{P}} B = A \cap B$ para $A,B \in \mathcal{P}(\Omega)$.  Sea $f: \mathcal{F} \to \mathcal{P}$ el mapeo que asigna $A_k \to \{ k \}$. Basta verificar que $f$ mantiene las operaciones para las $A_1, A_2, \dots A_k$ (¿por qué?). 
+Esta última parte es trivial pues:
+\begin{equation}\nonumber
+f(A_i \oplus_{\mathcal{F}} A_k) 
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+
+
+El teorema general requiere mucho más álgebra: 
+
+
+<div class="panel panel-primary">
+	<div id =  Teorema0.238766799913719Isomorfismo de álgebras booleanas class="panel-heading">
+		<h5> Teorema 6 [ Isomorfismo de álgebras booleanas ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>Toda álgebra booleana es isomorfa a un álgebra de conjuntos</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Requiere más álgebra; puedes verla <a href = 'http://planetmath.org/RepresentingABooleanAlgebraByFieldOfSets'>aquí.</a> 
+		</div>
+	</div>
+</div>
+
+
+
+
+La conclusión de esta sección: 
+
+> Es esencialmente lo mismo hablar de proposiciones que de conjuntos. Por lo tanto, identificaremos el espacio $\mathcal{F}$ sobre el que opera la plausibilidad como **un álgebra de conjuntos**. 
+
+
+Concluyamos esta sección con un dato curioso de postre: un anillo generado por $n$ proposiciones tiene cardinalidad $2^n$. 
+
+
+<div class="panel panel-primary">
+	<div id =  cardbool class="panel-heading">
+		<h5> Teorema 7 [ Cardinalidad de anillo booleano ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $\mathcal{F}$ un anillo booleano generado por $n$ proposiciones: $A_1, A_2, \dots, A_n$ no cero. Entonces la cardinalidad de $\mathcal{F}$ (denotada $\#\mathcal{F}$) es $2^n$. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Vamos a demostrar por inducción.
+<br>
+<b>Caso $n = 1$</b>
+Como $A_1 \neq \bar{0}$ tenemos dos valores: $A_1$ y $\bar{0}$. 
+
+<br>
+<b>Caso $n+1$</b>
+Supongamos que si tenemos $n$ proposiciones entonces la cardinalidad es $2^n$. Sea $f(A_1, A_2, \dots, A_n)$ una de las $2^n$ proposiciones de $\mathcal{F}$. Por otro lado, al agregar $A_{n+1}$ se establece para cada $f$ dos nuevos valores posibles: $A_{n+1} \odot  f(A_1, A_2, \dots, A_n)$ y $A_{n+1} \oplus f(A_1, A_2, \dots, A_n)$. Por lo que a los $2^n$ agregamos $2$ nuevas posibilidades y se tiene que $\#\mathcal{F} = 2^{n+1}$.
+ 
+		</div>
+	</div>
+</div>
+
+
+
+
+#### Interpretación de proposiciones
+
+
+#### Propiedades de orden
+
+#### ¡Rango!
+
+> Es un orden total 
+
+#### Resumen
+
+La plausibilidad de una proposición $A$, denotada $\mathfrak{pl}$ es una función que opera sobre un anillo booleano; 
+
+<!--### El salto homomorfo a teoría de conjuntos
+
+Ya desde el título empezamos mal la sección: ¿quién se acuerda qué es homomorfo?[^3] En breve, dos estructuras algebraicas son **homomorfas** si las operaciones entre ellas se preservan. Veremos que el cálculo de proposiciones lo podemos traducir a operaciones de conjuntos. Recuerda que un conjunto es una agrupación de elementos, $x$, para los cuales una proposición, $P(x)$, es verdadera. Por ejemplo, el conjunto de pares:
+\begin{equation}\nonumber
+A = \{ x\in \mathbb{N} : x \textrm{ es par} \} = \{ 2, 4, 6, 8, \dots \}.
+\end{equation}
+El conjunto de múltiplos de $3$ es aquella colección de números para los cuales la proposición "ser múltiplo de $3$" es verdadera:
+\begin{equation}\nonumber
+B = \{ x\in \mathbb{N} : x = 3k \textrm{ para } k \in \mathbb{N} \} = \{ 3, 6, 9, 12, \dots \}.
+\end{equation}
+Dado un conjunto (digamos el $A$ previo) y su _contexto o conjunto universal_ $\Omega$ (digamos $\Omega = \mathbb{N}$) podemos definir el complemento de $A$ sobre $\Omega$ como todos los elementos de $\Omega$ que no están en $A$: 
+\begin{equation}\nonumber
+A^{C} = \{ x \in \mathbb{N} : x \not\in A \} .
+\end{equation}
+Dicho de otra forma, $A^{C}$ es el conjunto que resulta de negar la proposición que genera $A$. En el ejemplo de los pares si $P(x)$ es la proposición $P(x) = x\textrm{ es par}$ entonces la proposición que genera al conjunto $A^{C}$ es $\lnot P(x) = x\textrm{ no es par}$. Es decir:
+\begin{equation}\nonumber
+A^{C} = \{ x \in \mathbb{N} : \lnot (x \textrm{ es par}) \} = \{ x \in \mathbb{N} : x \textrm{ no es par} \}.
+\end{equation}
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.534541904693469Casos de la vida real class="panel-heading">
+		<h5> Ejercicio 11 [ Casos de la vida real ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>¿Se cumple que $\pi \in \mathbb{N}^{C}$?</i>	</div>
+</div>
+
+
+El $\land$ tiene también su equivalente en teoría de conjuntos en la operación de intersección. Dados dos conjuntos $A$ y $B$ con proposiciones respectivas $P(x)$ para $A$ y $Q(x)$ para $B$ definimos la intersección entre dos conjuntos como el conjunto de aquellos elementos $x$ que están tanto en $A$ como en $B$; es decir, aquellas $x$ para las cuales tanto $P(x)$ como $Q(x)$ son verdaderas. 
+\begin{equation}\nonumber
+A\cap B = \{ x : P(x) \land Q(x) \}
+\end{equation}
+En el ejemplo anterior usando $A$ como el conjunto de pares y $B$ como el conjunto de múltiplos de $3$ podemos definir su intersección como:
+\begin{equation}\nonumber
+A\cap B = \{ x \in \mathbb{N}: (x \textrm{ es par}) \land (x = 3k \textrm{ para } k \in \mathbb{N}) \} = \{ x \in \mathbb{N}: x = 6k \textrm{ para } k \in \mathbb{N}) \} = \{ 6, 12, 18, 24, \dots \}
+\end{equation}
+La unión es equivalente al $\lor$. Dados $A$ y $B$ conjuntos con proposiciones $P(x)$ y $Q(x)$ tenemos que:
+\begin{equation}\nonumber
+A\cup B = \{ x : P(x) \lor Q(x) \}.
+\end{equation}
+En el ejemplo que seguro ya te está aburriendo:
+\begin{equation}\nonumber
+A\cup B = \{ x \in \mathbb{N}: (x \textrm{ es par}) \lor (x = 3k \textrm{ para } k \in \mathbb{N}) \} = \{ x \in \mathbb{N}: x = 2k \textrm{ ó } x = 3k \textrm{ para } k \in \mathbb{N}) \} = \{2,3,4,6,8,9, \dots \}.
+\end{equation}
+En todos los ejemplos anteriores condicioné a las $x$ a ser números naturales. Quiero enfatizar este punto: en general estamos asumiendo que existe un **conjunto universal** $\Omega$ (que cuando hablaba de proposiciones llamé _contexto_). Cuando hablamos de $A^{C}$, por ejemplo, es muy diferente si el contexto $\Omega$ son los naturales o los enteros:
+\begin{equation}\nonumber
+\{x \in \mathbb{N} : x \textrm{ es par}  \}^{C} = \{ 1, 3, 5, 7, \dots \} \qquad \{x \in \mathbb{Z} : x \textrm{ es par}  \}^{C} = \{ \dots -7,-5,-3,-1,1, 3, 5, 7, \dots \}
+\end{equation}
+Este contexto llamado **conjunto universal** verdaderamente determina dónde ocurren las operaciones y cómo se ven sus resultados. A partir de ahora (por esta sección) asumiré que hay un $\Omega$ por ahí y que todos los conjuntos $A$ y $B$ son subconjuntos de este $\Omega$. 
+Una última operación a definir que generaliza la toma de complementos es la diferencia. Dados dos conjuntos $A$ y $B$  definimos [**la diferencia**](https://www.youtube.com/watch?v=exZaZSf1JBc), $A \setminus B$ como aquellos puntos que están en $A$ pero no en $B$:
+\begin{equation}\nonumber
+A \setminus B = \left \{ x \in A : x  \not\in B \right \}.
+\end{equation}
+Si $A \subseteq \Omega$ a la diferencia $\Omega \setminus A$ se le llama **el complemento de $A$ (sobre $\Omega$)** y, si es claro quién es $\Omega$, se denota $A^C$ como ya quedamos <span class='wink'></span>. 
+
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.120023239869624La diferencia en términos de la ó y la negación class="panel-heading">
+		<h5> Ejercicio 12 [ La diferencia en términos de la ó y la negación ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>Dados dos conjuntos $A = \{ x \in \Omega : P(x) \}$ y $B = \{ x \in \Omega : Q(x) \}$ donde $P(x)$ y $Q(x)$ son proposiciones sobre las $x$, escribe al conjunto $A \setminus B$ en términos de $P(x)$ y $Q(x)$ utilizando los operadores proposicionales $\lor$ y $\lnot$ solamente.</i>	</div>
+</div>
+
+
+Una vez definidos conjuntos, como ya sabes, podemos realizar demostraciones utilizándolos: 
+
+
+<div class="panel panel-primary">
+	<div id =  Teorema0.492679261835292Intersección de la unión de conjuntos class="panel-heading">
+		<h5> Teorema 8 [ Intersección de la unión de conjuntos ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sean $A,B,C$ conjuntos. Entonces $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Sea $x \in A \cap (B \cup C)$ por lo cual se cumple que $x \in A$ y $x \in B \cup C$. Lo anterior implica que $x \in A$ y se cumple al menos una: $x \in B$ ó $x \in C$. De lo anterior tenemos dos opciones: a) $x \in A$ y $x \in B$ ó b) $x \in A$ y $x \in C$. Deducimos entonces que $x \in (A \cap B) \cup (A \cap C)$. Se concluye que $A \cap (B \cup C) \subseteq (A \cap B) \cup (A \cap C)$ porque todas las $x$ en el de la izquierda están en el de la derecha. 
+<br>
+Análogamente, sea $x \in (A \cap B) \cup (A \cap C)$ entonces tenemos que a) $x \in A$ y $x \in B$ ó b) $x \in A$ y $x \in C$. En cualquiera de los dos casos tenemos que $x \in A$; por otra parte sabemos que $x \in B$ ó $x \in C$ por lo cual $x \in B \cup C$. De lo anterior concluimos que $x \in A \cap (B \cup C)$ por lo cual $ (A \cap B) \cup (A \cap C) \subseteq A \cap (B \cup C)$ y como en el párrafo anterior probamos que $A \cap (B \cup C) \subseteq (A \cap B) \cup (A \cap C)$ tenemos entonces que $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$.
+ 
+		</div>
+	</div>
+</div>
+
+
+
+<div class="panel panel-success">
+	<div id =  propsets class="panel-heading">
+		<h5> Ejercicio 13 [ Propiedades de conjuntos 1 ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sean $A,B,C$ conjuntos. Demuestra las siguientes propiedades de conjuntos:
+<ol>
+  <li>Idempotencias: $A \cup A = A$</li>
+  <li>Conmutatividad: $A \cap B = B \cap A$,</li>
+  <li>Asociatividad: $A \cup (B \cup C) = (A \cup B) \cup C$,</li>
+  <li>Distributiva por la izquierda: $A \setminus (B \cap C) = (A \setminus B) \cup (A \setminus C)$,</li>
+  <li>Neutro: $A \setminus \emptyset = A$.</li>
+</ol>
+</i>	</div>
+</div>
+
+
+
+<div class="panel panel-success">
+	<div id =  Ejercicio0.606960793491453Idempotencia del complemento class="panel-heading">
+		<h5> Ejercicio 14 [ Idempotencia del complemento ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $A \subseteq \Omega$. Sea $A^{C}$ el complemento de $A$ sobre $\Omega$. Entonces:
+\begin{equation}\nonumber
+\big( A^{C} \big)^{C} = A
+\end{equation}
+¿Será que en general $A \setminus (A \setminus B) = B$? Demuéstralo o encuentra un contraejemplo.
+</i>	</div>
+</div>
+
+
+
+<div class="panel panel-success">
+	<div id =  demorgan1 class="panel-heading">
+		<h5> Ejercicio 15 [ Leyes de De Morgan 1 ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+Sean $A,B \subseteq \Omega$ entonces:
+<ol>
+<li> $(A \cap B)^{C} = A^{C} \cup B^{C}$ </li>
+<li> $(A \cup B)^{C} = A^{C} \cap B^{C}$ </li>
+</ol>
+donde los complementos se toman respecto a $\Omega$. 
+</i>	</div>
+</div>
+
+
+
+<div class="panel panel-success">
+	<div id =  nandos class="panel-heading">
+		<h5> Ejercicio 16 [ Nandos ] </h5>
+	</div>
+	<div class="panel-body">
+		<i>
+¿Será que en teoría de conjuntos puedes definir un operador equivalente al <code>NAND</code> <a href = '#nand'>del ejercicio pasado</a> que vuelva redundantes la toma de complementos, la unión $\cup$ y la intersección $\cap$? Encuéntralo y demuestra que sí es o bien demuestra que eso es imposible. 
+</i>	</div>
+</div>
+
+
+El punto de esta sección era probar que el cálculo proposicional era equivalente al cálculo en teoría de conjuntos.[^4] 
+
+-->
+<!--Voy a denotar $\mathfrak{pl}(A)$ a la plausibilidad de una proposición $A$ (lo que sea que esto signifique). Me encantaría plantear algunas reglas para esta plausibilidad.  -->
+<!--Principalmente, hay $4$ formas de acercarse a la teoría de la probabilidad: 1) viendo a la probabilidad como una extensión del razonamiento lógico (@jaynes2003probability y de @terrytao); 2) el enfoque desde el conteo y cardinalidad de conjuntos (@sheldon2002first y @meester2008natural), 3) desde el enfoque ``Bayesiano'' basado en teoría de la decisión que da Manuel Mendoza en su clase de Estadística Bayesiana (@de2017theory y @mendoza),  así como 4) dar axiomas y no meterse en problemas con analizar de dónde salen (@rincon2007curso y @gut2012probability). Estuve semanas debatiéndome sobre cuál era el mejor enfoque. -->
+<!--# Introducción
+
+## El típico ejemplo de la moneda en una explicación no tan típica
+
+### La moneda que surge de un $\Omega$ finito. 
+Una de las cosas "más aleatorias" (lo que sea que eso signifique) que cualquiera puede hacer en la vida real es aventar una moneda[^1] de tal forma que gire y caiga caóticamente hasta obtener uno de los dos lados (por supuesto que se puede quedar parada verticalmente pero no consideraremos esa posibilidad). En teoría, cada vez que arrojas la moneda posiblemente obtienes resultados diferentes. En nuestro caso, si usamos monedas mexicanas las opciones son **Águila** o **Sol** (esto es equivalente a Cara o Cruz; Cara o Barco; Monito feliz y Monumento; dependiendo de tu moneda). Ve por una moneda, arrójala unas 700 u 800 veces (nada más para estar seguros) y comprueba tus resultados (aunque, no olvidemos que hay una probabilidad _minúscula pero posible_ de que haya caído igual siempre). Si la arrojaste de una manera "suficientemente aleatoria" seguramente tuviste resultados diferentes: algunas veces **Águila** y otras **Sol** [^2]. ¿Esto implica que el arrojar la moneda es un evento aleatorio? Es decir ¿la moneda (o tú) tienen algo de aleatorio en sí? o ¿será que en el fondo arrojar una moneda no es un evento aleatorio y que percibimos la aleatoreidad porque somos incapaces de modelar cada una de las cosas que influyen el movimiento de la moneda (digamos, velocidad del viento, densidad del aire, posición del dedo, geometría específica de la moneda)? 
+
+> ¿Habrá algo en el mundo que se comporte de manera aleatoria o será sólo que nosotros lo vemos así porque ignoramos las _causas_?
+
+Los matemáticos creemos que la solución a este problema es la segunda opción: el movimiento de la moneda es completamente determinístico (si conocemos precisamente todo acerca de la moneda, el viento, el dedo, etc podemos modelar y predecir el proceso de arrojar una moneda y su posterior caída). Para los matemáticos la aleatoreidad aparente surge de nuestra ignorancia de las condiciones iniciales que determinan la caída de la moneda. Para ser claro: si las condiciones iniciales son las mismas entonces la moneda caerá exactamente de la misma forma (de hecho, Peter Diaconnis tiene [un aparato](https://www.npr.org/templates/story/story.php?storyId=1697475) que arroja monedas siempre de la misma forma). Para los matemáticos entonces la cara que resulta al caer la moneda está determinada por una función $M(\omega) \to \{ \text{Águila}, \text{Sol}\}$ que toma "condiciones iniciales" $\omega \in \Omega$ y las manda a uno de los resultados posibles: $E = \{ \text{Águila}, \text{Sol}\}$. 
+
+Veamos cómo funciona esto. Supongamos (de manera simplificada) que para la caída de la moneda sólo hay dos cosas que influyen: la fuerza del dedo (fuerte o débil) y la fuerza del viento (fuerte o débil). Las $\omega$s que pertenecen al **dominio** $\Omega$ de la $M$ sólo pueden tomar cuatro valores:
+
+1. $\omega_1 = (\text{Fuerte}, \text{Fuerte})$: Refiere a una moneda que se arrojó con un dedo con mucha fuerza y en el caso que el viento también solpa con fuerza. 
+
+2.  $\omega_2 = (\text{Fuerte}, \text{Débil})$: Refiere a una moneda que se arrojó con un dedo con mucha fuerza pero había poco viento. 
+
+3.  $\omega_3 = (\text{Débil}, \text{Fuerte})$: El dedo era débil pero el viento fuerte. 
+
+4.  $\omega_4 = (\text{Débil}, \text{Débil})$: Tanto el viento como el dedo son débiles en este caso. 
+
+Supongamos además (sin ningún motivo más allá de que a mí se me ocurrió para este ejemplo) que tanto $\omega_1$ como $\omega_2$ y $\omega_4$ resultan en que la moneda cae en **Águila** mientras que $\omega_3$ cae en **Sol**. Es decir: $M(\omega_1) = M(\omega_2) = M(\omega_4) = \text{Águila}$ y $M(\omega_3) = \text{Sol}$. Si suponemos que la mitad de las personas tienen un dedo fuerte y la mitad débil y que la mitad de las veces el viento sopla fuerte y la otra mitad débil, podemos entonces preguntarnos ¿cuál es la probabilidad de que la moneda arrojada por una persona desconocida en una situación desconocida caiga **Sol**? Dado que hay $4$ posibles omegas en $\Omega$ y sabemos que proporcionalmente, todos ocurren la mitad de las veces entonces un modelo posible sería decir que la probabilidad de **Sol** es $\frac{1}{4}$ (de $4$ $\omega$s sólo $1$ resulta en **Sol**). Para **Águila**; como ésta ocurre $3$ de las $4$ veces posibles, modelamos su probabilidad como $\frac{3}{4}$. Observa que $1 = \frac{1}{4} + \frac{3}{4}$; es decir, **la suma de las probabilidades de todos los resultados posibles es $1$**. 
+
+<div id = " Advertencia0.0267126283142716 " class="alert  alert-warning "><b> Advertencia : </b> 
+Mucha gente dice que una moneda tiene probabilidades $1/2$ de caer **Sol** y $1/2$ de **Águila** y quizá éste ejemplo donde la moneda tiene distintas probabilidades te saque de onda. Recuerda que cuando hablamos del comportamiento de objetos de la vida en términos matemáticos hablamos de _modelos_. Las matemáticas _representan_ lo que creemos es la realidad pero _no son la realidad_; es decir, el $1/2$ que mucha gente asume es una hipótesis de la realidad _pero no necesariamente la realidad_. De hecho la evidencia científica, @diaconis2007dynamical, indica que las monedas  [no caen $1/2$ de veces del mismo lado](https://epubs.siam.org/doi/abs/10.1137/S0036144504446436). 
+ </div>
+
+> En resumen. Tenemos un conjunto $\Omega = \{ \omega_1, \omega_2, \omega_3, \omega_4 \}$ y una función $M: \Omega \to E$ donde $E = \{ \text{Águila}, \text{Sol} \}$; sin embargo, en un momento determinado desconocemos la $\omega$ tomada. Sólo sabemos que las veces en que $M$ resulta en **Sol** son $\frac{1}{4}$ de todas las ocasiones mientras que $\frac{3}{4}$ de las mismas el resultado es **Águila**. 
+
+Analizemos con mayor profundidad la forma en la que consideramos las probabilidades de la moneda. Por ejemplo, ¿cuál es la probabilidad de que la moneda caiga en **Águila** y cómo se relaciona esto con las $\omega$s? El mecanismo que genera las águilas son las omegas $\omega_1$, $\omega_2$, $\omega_4$; preguntarnos por la probabilidad de **Águila** (en este caso) _coincide_ con la cardinalidad normalizada del conjunto de $\omega$s que resultan en **Águila**. Es decir:
+\begin{equation}\nonumber
+\textrm{Probabilidad de Águila} = \mathbb{P}\big( \underbrace{\left\{ \omega \in \Omega : M(\omega) = \textrm{Águila} \right\}}_{\textrm{Las } \omega \textrm{ que hacen que la moneda caiga Águila}} \big) = \mathbb{P}\big( \left \{ \omega_1, \omega_2, \omega_4 \right \} \big) = \dfrac{\# \left \{ \omega_1, \omega_2, \omega_4 \right \} }{ \# \Omega} = \dfrac{3}{4}.
+\end{equation}
+
+Por otro lado, la probabilidad de **Sol** se calcula de manera similar:
+\begin{equation}\nonumber
+\textrm{Probabilidad de Sol} = \mathbb{P}\big( \underbrace{\left\{ \omega \in \Omega : M(\omega) = \textrm{Sol} \right\}}_{\textrm{Las } \omega \textrm{ que hacen que la moneda caiga Sol}} \big) = \mathbb{P}\big( \left \{ \omega_3 \right \} \big) = \dfrac{\# \left \{ \omega_3 \right \} }{ \# \Omega} = \dfrac{1}{4}.
+\end{equation}
+
+Podemos preguntarnos también por la probabilidad de que caiga **Águila** o **Sol**:
+\begin{equation}\nonumber
+\begin{aligned}
+\textrm{Probabilidad de Águila o Sol} & = \mathbb{P}\big( \left\{ \omega \in \Omega : M(\omega) = \textrm{Águila} \right \} \overbrace{\cup}^{\textrm{ó}} \left\{ \omega \in \Omega : M(\omega) = \textrm{Sol} \right\} \big) 
+\\ & = \mathbb{P}\big( \left \{ \omega_1, \omega_2, \omega_3, \omega_4 \right \} \big) = \dfrac{\# \Omega }{ \# \Omega} = 1.
+\end{aligned}
+\end{equation}
+
+Análogamente, podemos hacernos la pregunta por la probabilidad de que la moneda caiga **Águila** y **Sol** a la vez (que debería ser $0$ si todo está bien):
+\begin{equation}\nonumber
+\begin{aligned}
+\textrm{Probabilidad de Águila y Sol} & = \mathbb{P}\big( \left\{ \omega \in \Omega : M(\omega) = \textrm{Águila} \right \} \overbrace{\cap}^{\textrm{y}} \left\{ \omega \in \Omega : M(\omega) = \textrm{Sol} \right\} \big) 
+\\ & = \mathbb{P}\big( \left \{ \right \} \big) = \dfrac{\# \{ \} }{ \# \Omega} = 0.
+\end{aligned}
+\end{equation}
+
+Por construcción del modelo hay una equivalencia entre **Águila** y **Sol** con las $\omega$. También podemos preguntarnos por las probabilidades en términos de éstas y ver que son equivalentes a Águila:
+\begin{equation}\nonumber
+\begin{aligned}
+\textrm{Probabilidad de Águila} & = \textrm{Probabilidad de } \left \{ \omega_1 \right \} \textrm{ ó } \left \{ \omega_2, \omega_4 \right \}
+\\ & = \mathbb{P}\big( \{ \omega_1 \} \big) + \mathbb{P}\big( \{ \omega_2, \omega_4 \} \big) 
+\\ & = \dfrac{ \# \{ \omega_1 \} }{\# \Omega} + \dfrac{ \# \{ \omega_2, \omega_4 \}}{\# \Omega} 
+\\ & = \dfrac{ \# \{ \omega_1 \} + \# \{ \omega_2, \omega_4 \} }{\# \Omega}
+\\ & = \dfrac{ \# \{ \omega_1, \omega_2, \omega_4 \} }{\# \Omega}
+\\ & = \mathbb{P}\big( \{ \omega_1, \omega_2, \omega_4 \} \big) 
+\\ & = \textrm{Probabilidad de } \left \{ \omega_1, \omega_2, \omega_4 \right \}
+\\ & = \textrm{Probabilidad de Águila}
+\end{aligned}
+\end{equation}
+
+El propósito de estos ejercicios es notar que las reglas de la probabilidad son similares (de alguna forma) a las reglas de la cardinalidad de conjuntos finitos. Además, podemos notar que las preguntas probabilísticas son preguntas sobre los subconjuntos de $\Omega$ y las operaciones válidas para dichas preguntas parecen ser, por ahora, la unión y la intersección de subconjuntos de $\Omega$. No olvides esto, es súper importante y volveremos sobre ello. 
+
+### La moneda que surge de un $\Omega$ infinito (de hecho $\aleph_1$). 
+
+Podemos complicar un poco más las cosas. Pensemos, por ejemplo, que ahora la fuerza del dedo toma valores entre $0$ y $1$ mientras que la fuerza del viento toma también valores en esa escala. Ahora los $\omega$ son puntos en el cuadrado unitario $\Omega = [0,1] \times [0,1]$.  
+
+<div class="figure" style="text-align: center">
+<img src="Intro_proba_v3_files/figure-html/unnamed-chunk-33-1.png" alt="El cuadrado $\Omega = [0,1] \times [0,1]$ de posibles combinaciones dedo-viento." width="480" />
+<p class="caption">El cuadrado $\Omega = [0,1] \times [0,1]$ de posibles combinaciones dedo-viento.</p>
+</div>
+
+Para responder por la probabilidad de **Sol** necesitamos analizar, de nuevo, los $\omega$s tales que $\hat{M}$ resulta en **Sol**. Como ejemplo, supongamos que el cuadrado unitario está dividido por el círculo de radio $r = \frac{1}{3\sqrt{\pi}}$ y que los $\omega$ de dicho círculo hacen que $\hat{M}(\omega) = \text{Sol}$ mientras que los $\omega$ que están fuera del círculo resultan en **Águila**: 
+
+<div class="figure" style="text-align: center">
+<img src="Intro_proba_v3_files/figure-html/unnamed-chunk-34-1.png" alt="El conjunto de $\omega$s clasificadas según como resultan tras evaluar con $\hat{M}$" width="576" />
+<p class="caption">El conjunto de $\omega$s clasificadas según como resultan tras evaluar con $\hat{M}$</p>
+</div>
+
+En este caso, un modelo para la probabilidad de **Sol** estaría dado por: ${\text{Área del círculo} \over \text{Área del Cuadrado}}$. En particular, dado el radio del círculo, tenemos que:
+$$
+\textrm{Probabilidad de Sol}  = {\text{Área del círculo} \over \text{Área del Cuadrado}} = \dfrac{\pi \cdot \Big(\frac{1}{3\sqrt{\pi}}\Big)^2}{1} = \dfrac{1}{3}
+$$
+
+¡Volvemos a obtener la probabilidad! La moraleja es la siguiente:
+
+> La probabilidad está dada por funciones deterministas $M$ que toman elementos $\omega$ de un conjunto $\Omega$ y los transforman en elementos de un espacio de resultados (observables) $E$. 
+
+Como en general el conjunto $\Omega$ es desconocido eventualmente nos despreocuparemos de él. El resto de la materia nos enfocaremos en las funciones $M$ (conocidas como _variables aleatorias_).
+
+<div id = " Advertencia0.47226982540451 " class="alert  alert-warning "><b> Advertencia : </b> 
+El desarrollo anterior es poco convencional pero técnicamente correcto. Lo que se hizo fue introducir un espacio de probabilidades $(\Omega, \mathcal{F}_{\Omega}, \mathbb{P}')$ con una medida de probabilidad uniforme y una variable aleatoria $M$ que mapea a los elementos de este espacio hacia el espacio medible $(E, \mathcal{E})$. 
+ </div>
+
+En la vida real no vamos a conocer quiénes son los elementos de $\Omega$. En general, nos va a dar igual; sobre lo que trabajaremos es sobre propiedades de las funciones $M$, de las probabilidades. Veamos otro ejemplo. 
+
+[^1]: Éste es el ejemplo favorito de los probabilistas. 
+[^2]: Si tu moneda las 800 veces que la lanzaste siempre salió igual tienes muy buena suerte (o una moneda falsa). Si tu caso es el primero, olvídate de la probabilidad y dedícate a los juegos de apuestas. 
+-->
+</div>
+</div>
+</div>
+</div>
+<div id="referencias" class="section level1 unnumbered">
+<h1>Referencias</h1>
+<div id="refs" class="references">
+<div id="ref-cox1946probability">
+<p><span style="font-variant: small-caps;">Cox</span>, R.T. (1946) Probability, frequency and reasonable expectation. <em>American journal of physics</em>, <strong>14</strong>, 1–13.</p>
+</div>
+<div id="ref-givant2008introduction">
+<p><span style="font-variant: small-caps;">Givant</span>, S. &amp; <span style="font-variant: small-caps;">Halmos</span>, P. (2008) <em>Introduction to boolean algebras</em>, ed. Springer Science &amp; Business Media.</p>
+</div>
+<div id="ref-huntington1933boolean">
+<p><span style="font-variant: small-caps;">Huntington</span>, E.V. (1933) Boolean algebra. a correction to:?New sets of independent postulates for the algebra of logic, with special reference to whitehead and russell?s principia mathematica?[Trans. amer. math. soc. 35 (1933), no. 1, 274–304; 1501684]. <em>Transactions of the American Mathematical Society</em>, <strong>35</strong>, 557–558.</p>
+</div>
+<div id="ref-jaynes2003probability">
+<p><span style="font-variant: small-caps;">Jaynes</span>, E.T. (2003) <em>Probability theory: The logic of science</em>, ed. Cambridge university press.</p>
+</div>
+<div id="ref-polya1990mathematics">
+<p><span style="font-variant: small-caps;">Polya</span>, G. (1990) <em>Mathematics and plausible reasoning: Patterns of plausible inference</em>, vol. 2, ed. Princeton University Press.</p>
+</div>
+<div id="ref-terrytao">
+<p><span style="font-variant: small-caps;">Tao</span>, T. (2015) 275A, notes on probability theory.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Tienes ya todas las herramientas algebraicas para modelarlo ¿cómo lo harías?<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Decir que yo me inventé esta forma de hablar de plausibilidad es mucho decir. La mayor parte de la sección que acaba de pasar (incluido el ejemplo) así como la que sigue está basada en <span class="citation">Jaynes (2003)</span> y en menor medida en <span class="citation">Tao (2015)</span> .<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Éstas son, de hecho, todas las combinaciones posibles de formas en las que combinar <span class="math inline">\(2\)</span> elementos <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>: con operaciones unitarias, <span class="math inline">\(\lnot\)</span>, puedes obtener <span class="math inline">\(4\)</span> valores: <span class="math inline">\(A, B, \lnot A\)</span> y <span class="math inline">\(\lnot B\)</span> mientras que para operaciones binarias sólo puedes tener <span class="math inline">\(2\)</span>: <span class="math inline">\(A \land B\)</span> y <span class="math inline">\(\lnot (A \land B)\)</span>.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Inserte una expresión en latín que me haga parecer culto (como <em>ipso facto</em>, <em>ad hoc</em>, <em>ex machina</em>).<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>Se nos podría ocurrir asignar <span class="math inline">\(\mathfrak{pl}(\bar{1}) = \infty\)</span> y aunque esto cumpliría que <span class="math inline">\(\mathfrak{pl}(A) \leq \mathfrak{pl}(\bar{1})\)</span> esto <em>automáticamente</em> trivializaría todo. La mejor forma de verlo es con un ejemplo: imaginemos que sólo existen dos proposiciones atómicas: <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>. En este caso, <span class="math inline">\(\bar{1} = A \lor B\)</span>. Por la <strong>aditividad finita</strong> tenemos que <span class="math inline">\(\mathfrak{pl}(A \lor B) = \mathfrak{pl}(A) + \mathfrak{pl}(B)\)</span> y por tanto: <span class="math inline">\(\infty = \mathfrak{pl}(A) + \mathfrak{pl}(B)\)</span> lo que implicaría que tanto <span class="math inline">\(\mathfrak{pl}(A) = \infty\)</span> como <span class="math inline">\(\mathfrak{pl}(B) = \infty\)</span> y esto, aunque matemáticamente puede ser interesante, <em>trivializa</em> el modelo por lo que no perseguiré este camino (aunque tú puedes hacerlo: hay cosas <em>matemáticamente</em> interesantes que pueden salir de aquí).<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>Las notas al pie son mi oportunidad de sincerarme: éste argumento es uno de los más filosóficamente controvertidos desde que se inventó la probabilidad (CITAR XXX). La discusión no es exclusiva a esto: afecta a varias áreas de la ciencia. La pregunta principal es: ¿Tiene sentido utilizar los números reales para describir el mundo externo así como las formas de pensar de los seres humanos? ¿Son los números reales <em>reales</em>? Yo no lo sé; ¿tú qué piensas?<a href="#fnref6">↩</a></p></li>
+</ol>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+      <b>Contáctame</b> en <a href="mailto:rzepeda17@gmail.com?Subject='Tus notas de proba'" target="_top">rzepeda17@gmail.com</a>
+    </div>
+    <div class="panel-footer"><span  xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><small><b>Notas de Cálculo de Probabilidades I</b></span> por <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Rodrigo Zepeda</span> tiene una licencia <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. </small><br /></div>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
